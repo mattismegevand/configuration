@@ -1,0 +1,10 @@
+# setting common options
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias ln="ln -v"
+
+# shortcuts
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"

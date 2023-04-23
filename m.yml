@@ -1,0 +1,13 @@
+name: m
+channels:
+  - defaults
+  - pytorch
+dependencies:
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pandas
+  - tqdm
+  - matplotlib
+  - jupyter
+prefix: /opt/homebrew/Caskroom/miniconda/base/envs/m
