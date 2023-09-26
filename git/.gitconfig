@@ -3,3 +3,4 @@
 	name = Mattis Megevand
 [core]
 	editor = vim
+	excludesfile = ~/.gitignore
