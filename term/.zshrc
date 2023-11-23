@@ -9,3 +9,7 @@ export VISUAL="$EDITOR"
 
 bindkey -e
 bindkey "^[[Z" reverse-menu-complete
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
