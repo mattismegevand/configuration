@@ -1,4 +1,5 @@
+oven-sh/bun/bun
 pyenv
 stow
 tmux
-xz
+uv
