@@ -1,9 +1,26 @@
 syntax on
-set autoindent
-set tabstop=2
-set shiftwidth=2
-set expandtab
+
+set guicursor=
+
 set number
-set hlsearch
-set ruler
-highlight Comment ctermfg=green
+set relativenumber
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+set smartindent
+
+set nowrap
+
+set nohlsearch
+set incsearch
+
+set scrolloff=8
+
+set colorcolumn=80
+
+let mapleader=" "
+nnoremap <leader>pv :Ex<CR>
