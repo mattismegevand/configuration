@@ -4,7 +4,7 @@ export CLICOLOR=1
 export PROMPT="%n@%m:%B%F{green}%~%f%b$ "
 export LSCOLORS=cxgxfxexbxegedabagacad
 
-export EDITOR=vim
+export EDITOR=nvim
 export VISUAL="$EDITOR"
 
 bindkey -e
@@ -16,3 +16,5 @@ eval "$(pyenv init -)"
 
 # bun completions
 [ -s "/Users/mattis/.bun/_bun" ] && source "/Users/mattis/.bun/_bun"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
