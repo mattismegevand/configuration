@@ -37,15 +37,7 @@ return {
 
                 bufmap('i', '<C-Space>', '<C-x><C-o>')
                 bufmap('n', 'K', vim.lsp.buf.hover)
-                bufmap('n', 'gd', vim.lsp.buf.definition)
-                bufmap('n', 'gD', vim.lsp.buf.declaration)
-                bufmap('n', 'gi', vim.lsp.buf.implementation)
-                bufmap('n', 'go', vim.lsp.buf.type_definition)
-                bufmap('n', 'gr', vim.lsp.buf.references)
-                bufmap('n', '<C-k>', vim.lsp.buf.signature_help)
-                bufmap('n', '<F2>', vim.lsp.buf.rename)
-                bufmap('n', '<F3>', vim.lsp.buf.format)
-                bufmap('n', '<F4>', vim.lsp.buf.code_action)
+
                 bufmap('n', '<space>f', function()
                     vim.lsp.buf.format { async = true }
                 end)
@@ -53,8 +45,8 @@ return {
         })
 
         vim.diagnostic.config({
-            virtual_text= { format = function(_) return "" end },
-            signs=false,
+            virtual_text = false,
+            signs = false,
         })
     end,
 }

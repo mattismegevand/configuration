@@ -1,9 +1,6 @@
 return {
     "ibhagwan/fzf-lua",
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-        -- calling `setup` is optional for customization
         local fzf = require("fzf-lua")
 
         vim.keymap.set('n', '<leader>ff', fzf.files, {})
@@ -11,5 +8,11 @@ return {
         vim.keymap.set('n', '<leader>fd', fzf.git_files, {})
         vim.keymap.set('n', '<leader>fb', fzf.buffers, {})
         vim.keymap.set('n', '<leader>fh', fzf.help_tags, {})
+
+        vim.keymap.set('n', 'gd', fzf.lsp_definitions, {})
+        vim.keymap.set('n', 'gr', fzf.lsp_references, {})
+        vim.keymap.set('n', 'gI', fzf.lsp_implementations, {})
+
+        fzf.setup({'telescope'})
     end,
 }

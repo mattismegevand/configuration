@@ -5,9 +5,9 @@ stow term
 stow tmux
 stow vim
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
     stow aerospace
     stow brew
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     stow i3
 fi

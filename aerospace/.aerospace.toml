@@ -2,7 +2,7 @@ enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
 
 [mode.main.binding]
-ctrl-enter = 'exec-and-forget open -n /Applications/kitty.app'
+ctrl-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~/.'
 
 ctrl-k = 'focus up'
 ctrl-j = 'focus down'
@@ -28,7 +28,7 @@ ctrl-shift-space = 'layout floating tiling' # 'floating toggle' in i3
 ctrl-1 = 'workspace 1' # web
 ctrl-2 = 'workspace 2' # terminal
 ctrl-3 = 'workspace 3' # discord
-ctrl-4 = 'workspace 4'
+ctrl-4 = 'workspace 4' # media
 ctrl-5 = 'workspace 5'
 ctrl-6 = 'workspace 6'
 ctrl-7 = 'workspace 7'
@@ -49,7 +49,7 @@ ctrl-shift-0 = 'move-node-to-workspace 10'
 
 ctrl-shift-c = 'reload-config'
 
-ctrl-r = 'mode resize'
+alt-r = 'mode resize'
 
 [mode.resize.binding]
 h = 'resize width +50'
@@ -74,3 +74,7 @@ run = 'move-node-to-workspace 2'
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'mpv'
+run = 'move-node-to-workspace 4'
