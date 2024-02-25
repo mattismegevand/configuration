@@ -22,10 +22,10 @@ return {
             end,
         }
 
-        vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
         vim.keymap.set('n', ',d', vim.diagnostic.goto_prev)
         vim.keymap.set('n', ';d', vim.diagnostic.goto_next)
-        vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+        vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
         vim.api.nvim_create_autocmd('LspAttach', {
             desc = 'LSP actions',
@@ -38,7 +38,7 @@ return {
                 bufmap('i', '<C-Space>', '<C-x><C-o>')
                 bufmap('n', 'K', vim.lsp.buf.hover)
 
-                bufmap('n', '<space>f', function()
+                bufmap('n', '<leader>vf', function()
                     vim.lsp.buf.format { async = true }
                 end)
             end

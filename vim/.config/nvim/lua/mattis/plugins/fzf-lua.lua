@@ -1,5 +1,6 @@
 return {
     "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         local fzf = require("fzf-lua")
 
@@ -13,6 +14,6 @@ return {
         vim.keymap.set('n', 'gr', fzf.lsp_references, {})
         vim.keymap.set('n', 'gI', fzf.lsp_implementations, {})
 
-        fzf.setup({'telescope'})
+        fzf.setup({ 'telescope' })
     end,
 }
