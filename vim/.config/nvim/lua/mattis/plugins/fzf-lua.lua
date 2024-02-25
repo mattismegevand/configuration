@@ -4,9 +4,10 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         -- calling `setup` is optional for customization
-        local builtin = require("fzf-lua")
-        vim.keymap.set('n', '<leader>pf', builtin.files, {})
-        vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-        vim.keymap.set('n', '<leader>ps', builtin.live_grep, {})
+        local fzf = require("fzf-lua")
+
+        vim.keymap.set('n', '<leader>pf', fzf.files, {})
+        vim.keymap.set('n', '<C-p>', fzf.git_files, {})
+        vim.keymap.set('n', '<leader>ps', fzf.live_grep, {})
     end,
 }

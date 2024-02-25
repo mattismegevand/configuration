@@ -7,7 +7,7 @@ return {
     },
 
     config = function()
-        local cmp_lsp = require("cmp_nvim_lsp")
+        local _ = require("cmp_nvim_lsp")
 
         require("mason").setup()
         require("mason-lspconfig").setup({
@@ -53,15 +53,8 @@ return {
         })
 
         vim.diagnostic.config({
-            virtual_text = false,
-            float = {
-                focusable = false,
-                style = "minimal",
-                border = "rounded",
-                source = "always",
-                header = "",
-                prefix = "",
-            },
+            virtual_text= { format = function(_) return "" end },
+            signs=false,
         })
     end,
 }

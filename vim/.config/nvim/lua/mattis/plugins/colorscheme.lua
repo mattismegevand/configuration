@@ -1,11 +1,11 @@
 return {
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "rebelot/kanagawa.nvim",
+    name = "kanagawa",
     config = function()
-        local configs = require("rose-pine")
-        configs.setup({
-            styles = { italic = false },
+        require("kanagawa").setup({
+            commentStyle = { italic = false },
+            keywordStyle = { italic = false },
         })
-        vim.cmd("colorscheme rose-pine")
+        vim.cmd("colorscheme kanagawa-lotus")
     end,
 }
