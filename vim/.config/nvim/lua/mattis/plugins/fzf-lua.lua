@@ -6,8 +6,10 @@ return {
         -- calling `setup` is optional for customization
         local fzf = require("fzf-lua")
 
-        vim.keymap.set('n', '<leader>pf', fzf.files, {})
-        vim.keymap.set('n', '<C-p>', fzf.git_files, {})
-        vim.keymap.set('n', '<leader>ps', fzf.live_grep, {})
+        vim.keymap.set('n', '<leader>ff', fzf.files, {})
+        vim.keymap.set('n', '<leader>fg', fzf.live_grep, {})
+        vim.keymap.set('n', '<leader>fd', fzf.git_files, {})
+        vim.keymap.set('n', '<leader>fb', fzf.buffers, {})
+        vim.keymap.set('n', '<leader>fh', fzf.help_tags, {})
     end,
 }
