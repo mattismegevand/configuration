@@ -1,11 +1,9 @@
 return {
-    "rebelot/kanagawa.nvim",
-    name = "kanagawa",
+    "mcchrish/zenbones.nvim",
     config = function()
-        require("kanagawa").setup({
-            commentStyle = { italic = false },
-            keywordStyle = { italic = false },
-        })
-        vim.cmd("colorscheme kanagawa-lotus")
+        vim.opt.termguicolors = true
+        vim.opt.background = light
+        vim.g.bones_compat = true
+        vim.cmd.colorscheme("zenbones")
     end,
 }
