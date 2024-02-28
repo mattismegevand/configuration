@@ -1,3 +1,20 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>fv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>/", ':nohlsearch<CR>')
+vim.keymap.set('n', "<leader>bg", ':exec &bg=="light"? "set bg=dark" : "set bg=light"<CR>', {noremap = true, silent = true})
+
+vim.keymap.set("n", "<C-j>", ':cn<CR>zzzv', {})
+vim.keymap.set("n", "<C-k>", ':cp<CR>zzzv', {})
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "<C-]>", "<C-]>zzzv")
+vim.keymap.set("n", "<C-o>", "<C-o>zzzv")
+vim.keymap.set("n", "<C-i>", "<C-i>zzzv")
+
+vim.keymap.set("n", "<leader>p", '"+p')
+vim.keymap.set("v", "<leader>p", '"+p')
+vim.keymap.set("n", "<leader>P", '"+P')
+vim.keymap.set("v", "<leader>P", '"+P')
+vim.keymap.set("n", "<leader>y", '"+y')
+vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>Y", '"+y$')
