@@ -117,7 +117,6 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Search exec bemenu-run
 
 assign [class="Google-chrome"] 1
-assign [class="kitty"] 2
 assign [class="Code"] 3
 assign [class="discord"] 4
 
