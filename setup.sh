@@ -9,5 +9,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     stow aerospace
     stow brew
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    stow i3
+    stow sway 
 fi
