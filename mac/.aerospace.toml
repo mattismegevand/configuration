@@ -19,16 +19,16 @@ ctrl-alt-v = 'split vertical'
 
 ctrl-f = 'fullscreen'
 
-ctrl-s = 'layout v_accordion' # 'layout stacking' in i3
-ctrl-w = 'layout h_accordion' # 'layout tabbed' in i3
-ctrl-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
+ctrl-s = 'layout v_accordion'
+ctrl-w = 'layout h_accordion'
+ctrl-e = 'layout tiles horizontal vertical'
 
-ctrl-shift-space = 'layout floating tiling' # 'floating toggle' in i3
+ctrl-shift-space = 'layout floating tiling'
 
-ctrl-1 = 'workspace 1' # web
-ctrl-2 = 'workspace 2' # terminal
-ctrl-3 = 'workspace 3' # discord
-ctrl-4 = 'workspace 4' # media
+ctrl-1 = 'workspace 1'
+ctrl-2 = 'workspace 2'
+ctrl-3 = 'workspace 3'
+ctrl-4 = 'workspace 4'
 ctrl-5 = 'workspace 5'
 ctrl-6 = 'workspace 6'
 ctrl-7 = 'workspace 7'
@@ -64,17 +64,9 @@ if.app-id = 'org.chromium.Chromium'
 run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Terminal'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-id = 'net.kovidgoyal.kitty'
-run = 'move-node-to-workspace 2'
-
-[[on-window-detected]]
-if.app-id = 'com.hnc.Discord'
+if.app-id = 'com.microsoft.VSCode'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'mpv'
+if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace 4'
