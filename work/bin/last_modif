@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+modified_files=()
+
+check_and_collect_modified_files() {
+    dir=$1
+    cd "$dir" || exit
+
+    branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+    if [[ $branch_name == *"mmeg"* ]]; then
+        files=$(git diff-tree --no-commit-id --name-only -r HEAD)
+        if [ ! -z "$files" ]; then
+            for file in $files; do
+                modified_files+=("$dir/$file")
+            done
+        fi
+    fi
+
+    cd ..
+}
+
+cd ~/src
+check_and_collect_modified_files "odoo"
+check_and_collect_modified_files "enterprise"
+
+if [ ${#modified_files[@]} -eq 0 ]; then
+    echo "No modified files to open."
+else
+    nvim "${modified_files[@]}"
+fi

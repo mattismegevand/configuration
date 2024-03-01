@@ -67,6 +67,10 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion

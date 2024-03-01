@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cd ~/src
+cd odoo && git fetch --all && cd ..
+cd enterprise && git fetch --all && cd ..
+wait

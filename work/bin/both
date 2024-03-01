@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+directories=("$HOME/src/odoo" "$HOME/src/enterprise")
+command_to_run="$@"
+
+if [ -z "$command_to_run" ]; then
+    echo "Please provide a command to run."
+    exit 1
+fi
+
+for dir in "${directories[@]}"; do
+    if [ -d "$dir" ]; then
+        echo "Executing '$command_to_run' in $dir"
+        (cd "$dir" && eval "$command_to_run")
+    else
+        echo "Directory $dir not found."
+    fi
+done
