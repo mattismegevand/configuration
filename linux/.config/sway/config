@@ -114,7 +114,7 @@ assign [class="Code"] 3
 assign [class="discord"] 4
 
 input "type:keyboard" {
-    xkb_layout be
+    xkb_layout us
 }
 
 set $screenshot 1 selected, 2 whole, 3 selected clipboard, 4 whole clipboard, 5 swappy
