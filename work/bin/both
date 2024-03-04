@@ -11,8 +11,10 @@ fi
 for dir in "${directories[@]}"; do
     if [ -d "$dir" ]; then
         echo "Executing '$command_to_run' in $dir"
-        (cd "$dir" && eval "$command_to_run")
+        (cd "$dir" && eval "$command_to_run" &)
     else
         echo "Directory $dir not found."
     fi
 done
+
+wait
