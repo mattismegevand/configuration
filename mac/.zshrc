@@ -1,3 +1,5 @@
+export TERM=xterm-256color
+
 source ~/.aliases
 
 export CLICOLOR=1
