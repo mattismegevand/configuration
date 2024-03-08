@@ -1,0 +1,15 @@
+{
+    "workbench.colorTheme": "Verdandi Alter",
+    "editor.fontFamily": "'JetBrains Mono', 'Droid Sans Mono', 'monospace', monospace",
+    "vim.smartRelativeLine": true,
+    "vim.handleKeys": {
+        "<C-b>": false,
+        "<C-d>": true,
+        "<C-s>": false,
+        "<C-z>": false
+    },
+    "editor.minimap.enabled": false,
+    "workbench.activityBar.location": "top",
+    "window.menuBarVisibility": "hidden",
+    "breadcrumbs.enabled": false
+}
