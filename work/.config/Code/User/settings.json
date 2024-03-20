@@ -1,13 +1,2 @@
 {
-    "workbench.colorTheme": "Verdandi Alter",
-    "editor.fontFamily": "'JetBrains Mono', 'Droid Sans Mono', 'monospace', monospace",
-    "editor.minimap.enabled": false,
-    "workbench.activityBar.location": "top",
-    "window.menuBarVisibility": "hidden",
-    "breadcrumbs.enabled": false,
-    "notebook.lineNumbers": "on",
-    "vim.smartRelativeLine": true,
-    "vim.handleKeys": {
-        "<C-b>": false,
-    },
 }
