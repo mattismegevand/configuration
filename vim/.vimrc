@@ -1,40 +1,56 @@
-let mapleader = " "
-let g:netrw_banner = 0
-
-set guicursor=
-
+set nocompatible
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+set nrformats-=octal
+set ttimeout
+set ttimeoutlen=100
+set incsearch
+set hlsearch
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+set laststatus=2
 set number
 set relativenumber
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set ignorecase
-set smartcase
-set nowrap
-set scrolloff=8
-set colorcolumn=80
-set list
-set listchars=tab:»\ ,trail:·,nbsp:␣
+set ruler
+set wildmenu
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=2
+set display+=lastline,truncate
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set formatoptions+=j
+set autoread
+set history=1000
+set tabpagemax=50
+set viminfo^=!
+set sessionoptions-=options
+set viewoptions-=options
 
-inoremap <C-c> <Esc>
+if &t_Co == 8
+  set t_Co=16
+endif
 
-nnoremap <leader>fv :Ex<CR>
-nnoremap <leader>/ :nohlsearch<CR>
-nnoremap <leader>bg :exec &background=="light"? "set background=dark" : "set background=light"<CR>
-nnoremap <C-j> :cn<CR>zzzv
-nnoremap <C-k> :cp<CR>zzzv
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap <C-]> <C-]>zzzv
-nnoremap <C-o> <C-o>zzzv
-nnoremap <C-i> <C-i>zzzv
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-nnoremap <leader>y "+y
-nnoremap <leader>Y "+y$
+if &shell =~# 'fish$'
+  set shell=/usr/bin/env\ bash
+endif
 
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
-vnoremap <leader>y "+y
+set nolangremap
+filetype plugin indent on
+
+if !exists('g:syntax_on')
+  syntax enable
+endif
+
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+
+let g:is_posix = 1
+
+if findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+if &filetype !=? 'man' && !has('nvim')
+  runtime ftplugin/man.vim
+endif
+
