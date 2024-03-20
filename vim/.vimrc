@@ -1,26 +1,56 @@
-syntax on
-
-set guicursor=
-
+set nocompatible
+set backspace=indent,eol,start
+set complete-=i
+set smarttab
+set nrformats-=octal
+set ttimeout
+set ttimeoutlen=100
+set incsearch
+set hlsearch
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+set laststatus=2
 set number
 set relativenumber
+set ruler
+set wildmenu
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=2
+set display+=lastline,truncate
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set formatoptions+=j
+set autoread
+set history=1000
+set tabpagemax=50
+set viminfo^=!
+set sessionoptions-=options
+set viewoptions-=options
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+if &t_Co == 8
+  set t_Co=16
+endif
 
-set autoindent
-set smartindent
+if &shell =~# 'fish$'
+  set shell=/usr/bin/env\ bash
+endif
 
-set nowrap
+set nolangremap
+filetype plugin indent on
 
-set nohlsearch
-set incsearch
+if !exists('g:syntax_on')
+  syntax enable
+endif
 
-set scrolloff=8
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
 
-set colorcolumn=80
+let g:is_posix = 1
 
-let mapleader=" "
-nnoremap <leader>pv :Ex<CR>
+if findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+if &filetype !=? 'man' && !has('nvim')
+  runtime ftplugin/man.vim
+endif
+

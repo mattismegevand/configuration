@@ -1,5 +1,3 @@
-alias vim="nvim"
-
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias ln="ln -v"
@@ -19,5 +17,3 @@ alias glo="git log --oneline"
 alias gp="git push"
 alias gpu="git pull"
 alias gs="git status"
-
-alias radio="mpv 'https://www.youtube.com/watch?v=jfKfPfyJRdk' --no-video"

@@ -27,5 +27,5 @@ check_and_collect_modified_files "enterprise"
 if [ ${#modified_files[@]} -eq 0 ]; then
     echo "No modified files to open."
 else
-    nvim "${modified_files[@]}"
+    vim "${modified_files[@]}"
 fi
