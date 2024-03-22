@@ -1,2 +1,4 @@
 {
+    "vim.smartRelativeLine": true,
+    "editor.minimap.enabled": false
 }
