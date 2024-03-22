@@ -9,7 +9,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     stow brew
     stow zsh
     defaults write -g ApplePressAndHoldEnabled -bool false
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    stow work
+elif [[ "$OSTYPE" == "linux"* ]]; then
     stow bash
+    stow work
 fi

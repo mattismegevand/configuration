@@ -53,4 +53,3 @@ endif
 if &filetype !=? 'man' && !has('nvim')
   runtime ftplugin/man.vim
 endif
-
