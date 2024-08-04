@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+(cd "$HOME/src/odoo" && "$@") &
+(cd "$HOME/src/enterprise" && "$@") &
+
+wait

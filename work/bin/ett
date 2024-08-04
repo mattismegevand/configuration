@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <branch_name>"
+  exit 1
+fi
+
+BRANCH=$1
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+git diff origin/$BRANCH -- "*/tours/*" "*/tests/*" > /tmp/test_tour_${CURRENT_BRANCH}.diff
+
+echo "Diff output saved to /tmp/test_tour_${CURRENT_BRANCH}.diff"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+for branch in "15.0" "16.0" "17.0" "saas-17.1" "saas-17.2" "saas-17.4" "master"; do
+    echo "Updating [branch=$branch]..."
+    (cd ~/src/odoo/ && git checkout $branch && git rebase origin/$branch) &
+    (cd ~/src/enterprise/ && git checkout $branch && git rebase origin/$branch) &
+
+    wait
+done
+
+wait
+
+echo "Done."
