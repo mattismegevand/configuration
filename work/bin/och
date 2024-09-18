@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+get_branches() {
+    cd $1 || exit
+    git for-each-ref --format='%(authorname) %09 %(refname)' --sort=authorname | grep '(mmeg)' | rev | cut -d' ' -f1 | cut -d'/' -f1 | rev
+}
+
+get_target_fallback() {
+    if [ -z "$1" ]; then
+        main_branches=("15.0" "16.0" "17.0" "saas-17.2" "saas-17.4" "master")
+        main_branches=$(printf "%s\n" "${main_branches[@]}")
+        odoo=$(get_branches "$HOME/src/odoo")
+        enterprise=$(get_branches "$HOME/src/enterprise")
+        branch=$(echo -e "${odoo}\n${enterprise}\n${main_branches}" | sort | uniq | fzf) || exit $?
+    else
+        branch="$1"
+    fi
+    if [[ "$branch" == *"/"* ]]; then
+        echo "$branch $branch"
+        return
+    fi
+    target="${branch##*:}"
+    if ! [[ "$target" =~ ^(master|(saas-)?[0-9]{2}\.[0-9]) ]]; then
+        exit 1
+    fi
+    fallback="${BASH_REMATCH[0]}"
+    echo "$target $fallback"
+}
+
+read -r target fallback < <(get_target_fallback "$1") || exit $?
+echo "Checking out branch in both directories [target=$target, fallback=$fallback]..."
+
+(cd "$HOME/src/odoo" && git checkout "$target" || git checkout "$fallback") &
+(cd "$HOME/src/enterprise" && git checkout "$target" || git checkout "$fallback") &
+
+wait
+
+"$HOME/bin/setdb" "${target##*/}"
+echo "Done."

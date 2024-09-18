@@ -1,0 +1,10 @@
+[user]
+	email = megevand.mattis@gmail.com
+	name = Mattis Megevand
+[core]
+	editor = nvim
+	excludesfile = ~/.gitignore
+[init]
+	defaultBranch = main
+[diff]
+	external = difft

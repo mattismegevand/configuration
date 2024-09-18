@@ -1,0 +1,4 @@
+alias ob="~/src/odoo/odoo-bin"
+alias ofe="both git fetch --all"
+alias cdo="cd ~/src/odoo"
+alias cde="cd ~/src/enterprise"
