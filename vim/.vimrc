@@ -1,0 +1,35 @@
+let mapleader = " "
+
+filetype plugin indent on
+syntax on
+
+runtime macros/matchit.vim
+
+set autoindent
+set backspace=indent,eol,start
+set laststatus=2
+set expandtab
+set hidden
+set ignorecase
+set incsearch
+set number
+set relativenumber
+set ruler
+set shiftround
+set shiftwidth=4
+set smartcase
+set softtabstop=4
+set tabstop=4
+set wildmenu
+
+inoremap <C-C> <ESC>
+
+nnoremap n nzz
+nnoremap N Nzz
+
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+
+color elflord
