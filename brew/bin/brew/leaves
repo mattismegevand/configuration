@@ -1,8 +1,6 @@
-bat
 cmake
 coreutils
 difftastic
-eza
 fd
 fish
 fzf
