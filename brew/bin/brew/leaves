@@ -1,17 +1,5 @@
-cmake
-coreutils
-difftastic
-fd
 fish
-fzf
 git
-jesseduffield/lazygit/lazygit
-libyaml
-mpv
-node
-postgresql@16
-redis
-ripgrep
 stow
 tmux
 uv
