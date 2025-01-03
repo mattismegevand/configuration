@@ -19,3 +19,6 @@ alias glog="git log"
 alias gp="git push"
 alias gs="git status"
 alias gsw="git switch"
+
+alias notes="vim ~/notes.txt"
+alias todo="vim ~/todo.txt"
