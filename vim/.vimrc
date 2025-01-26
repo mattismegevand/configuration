@@ -7,12 +7,13 @@ runtime macros/matchit.vim
 
 set autoindent
 set backspace=indent,eol,start
-set laststatus=2
 set expandtab
 set hidden
 set ignorecase
 set incsearch
+set laststatus=2
 set number
+set path+=**
 set relativenumber
 set ruler
 set shiftround
