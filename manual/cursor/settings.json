@@ -1,0 +1,63 @@
+{
+    "telemetry.telemetryLevel": "off",
+
+    "extensions.ignoreRecommendations": true,
+
+    "window.commandCenter": true,
+    "workbench.editor.enablePreview": false,
+    "workbench.colorTheme": "Visual Studio Dark",
+
+    "editor.fontFamily": "Berkeley Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.lineNumbers": "relative", 
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "trailing",
+    "editor.scrollBeyondLastLine": false,
+    "editor.rulers": [120],
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.venv": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+
+    "vim.handleKeys": {
+        "<C-b>": false,
+        "<C-d>": true,
+        "<C-p>": false,
+        "<C-s>": false,
+        "<C-z>": false
+    },
+    "vim.highlightedyank.enable": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>", "w"],
+            "commands": ["workbench.action.files.save"]
+        },
+        {
+            "before": ["<leader>", "q"],
+            "commands": ["workbench.action.closeActiveEditor"]
+        },
+        {
+            "before": ["<leader>", "b"],
+            "commands": ["workbench.action.toggleSidebarVisibility"]
+        },
+        {
+            "before": ["<leader>", "f"],
+            "commands": ["workbench.action.quickOpen"]
+        },
+        {
+            "before": ["<leader>", "h"],
+            "commands": [":nohl"]
+        },
+        {
+            "before": ["<leader>", "/"],
+            "commands": ["editor.action.commentLine"]
+        }
+    ]
+}
