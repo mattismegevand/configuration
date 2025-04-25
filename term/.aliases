@@ -1,0 +1,41 @@
+alias vim="nvim"
+
+alias cp="cp -iv"
+alias ln="ln -v"
+alias mv="mv -iv"
+
+alias ga="git add"
+alias gc="git commit"
+alias gca="git commit --amend"
+alias gcane="git commit --amend --no-edit"
+alias gch="git checkout"
+alias gchb="git checkout -b"
+alias gd="git diff"
+alias gdh="git diff HEAD"
+alias gdp="git diff --no-ext-diff"
+alias gds="git diff --staged"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+alias gl="git pull"
+alias glog="git log"
+alias gp="git push"
+alias gs="git status"
+alias gsw="git switch"
+
+notes_file() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        echo "$HOME/Library/Mobile Documents/com~apple~CloudDocs/notes.txt"
+    else
+        echo "$HOME/notes.txt"
+    fi
+}
+todo_file() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        echo "$HOME/Library/Mobile Documents/com~apple~CloudDocs/todo.txt"
+    else
+        echo "$HOME/todo.txt"
+    fi
+}
+
+alias notes="vim \"$(notes_file)\""
+alias todo="vim \"$(todo_file)\""

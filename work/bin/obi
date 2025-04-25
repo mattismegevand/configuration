@@ -1,0 +1,15 @@
+#!/usr/bin/env bun
+
+import { $ } from "bun";
+
+try {
+  const selection = await $`
+    find ~/src/odoo/addons ~/src/enterprise -mindepth 1 -maxdepth 1 -type d |
+    rev | cut -d/ -f 1 | rev | sort | fzf -m
+  `.text();
+  if (!selection.trim()) process.exit(0);
+  await $`~/src/odoo/odoo-bin -i ${selection.split("\n").join(",")}`;
+} catch (error) {
+  console.error("An error occurred:", error);
+  process.exit(1);
+}

@@ -1,0 +1,6 @@
+[user]
+	name = Mattis Megevand
+	email = megevand.mattis@gmail.com
+[core]
+	editor = nvim
+	excludesfile = ~/.gitignore
