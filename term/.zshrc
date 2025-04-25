@@ -1,10 +1,10 @@
-export PS1=$'%n@%m:\e[0;36m%~\e[0m$ '
+export PS1=$'%n@%m:%F{cyan}%~%f$ '
 
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 export PAGER='less'
 
-HISTFILE=~/.history
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
@@ -20,11 +20,18 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 bindkey -e
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
-
-[[ -d $HOME/bin ]] && PATH="$HOME/bin:$PATH"
-[[ -d /opt/homebrew/bin ]] && PATH="/opt/homebrew/bin:$PATH"
 
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.aliases_work ]] && source ~/.aliases_work
+
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+fi
+
+[[ -d $HOME/bin ]] && PATH="$HOME/bin:$PATH"
+[[ -d /opt/homebrew/bin ]] && PATH="/opt/homebrew/bin:$PATH"
+export PATH
+
+[ -s "/Users/mattis/.bun/_bun" ] && source "/Users/mattis/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
