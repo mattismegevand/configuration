@@ -1,0 +1,27 @@
+#!/usr/bin/env bun
+import { $ } from "bun";
+
+const selected = process.argv.length === 3
+  ? process.argv[2]
+  : await $`find ~/fun -mindepth 1 -maxdepth 1 -type d | fzf`.text().then(text => text.trim());
+
+if (!selected) process.exit(0);
+
+const selected_name = await $`basename ${selected}`.text().then(text => text.trim().replace(/\./g, '_'));
+const tmux_running = (await $`pgrep tmux`.nothrow().quiet()).exitCode === 0;
+
+if (!process.env.TMUX && !tmux_running) {
+  await $`tmux new-session -s ${selected_name} -c ${selected}`;
+  process.exit(0);
+}
+
+if ((await $`tmux has-session -t=${selected_name}`.nothrow().quiet()).exitCode !== 0) {
+  await $`tmux new-session -ds ${selected_name} -c ${selected}`;
+}
+
+// await $`${!process.env.TMUX ? 'tmux attach -t' : 'tmux switch-client -t'} ${selected_name}`;
+if (!process.env.TMUX) {
+  await $`tmux attach -t ${selected_name}`;
+} else {
+  await $`tmux switch-client -t ${selected_name}`;
+}

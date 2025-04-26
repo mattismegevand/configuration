@@ -1,13 +1,12 @@
 return {
-  {
-    'zenbones-theme/zenbones.nvim',
-    priority = 1000,
-    lazy = false,
-    config = function()
-      vim.g.bones_compat = 1
-      vim.cmd.colorscheme 'zenburned'
-    end,
-  },
+  'zenbones-theme/zenbones.nvim',
+  priority = 1000,
+  lazy = false,
+  config = function()
+    vim.g.bones_compat = 1
+    -- vim.cmd.colorscheme 'zenburned'
+    vim.cmd.colorscheme 'elflord'
+  end,
 }
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -11,3 +11,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 elif [[ "$OSTYPE" == "linux"* ]]; then
     stow work
 fi
+
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

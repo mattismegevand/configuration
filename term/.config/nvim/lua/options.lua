@@ -17,5 +17,6 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.confirm = true
+vim.opt.wrap = false
 
 -- vim: ts=2 sts=2 sw=2 et
