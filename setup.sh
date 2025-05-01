@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+stow misc
 stow term
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -11,5 +12,3 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 elif [[ "$OSTYPE" == "linux"* ]]; then
     stow work
 fi
-
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

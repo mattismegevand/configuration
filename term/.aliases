@@ -1,5 +1,3 @@
-alias vim="nvim"
-
 alias cp="cp -iv"
 alias ln="ln -v"
 alias mv="mv -iv"
@@ -29,6 +27,7 @@ notes_file() {
         echo "$HOME/notes.txt"
     fi
 }
+
 todo_file() {
     if [[ "$(uname)" == "Darwin" ]]; then
         echo "$HOME/Library/Mobile Documents/com~apple~CloudDocs/todo.txt"
