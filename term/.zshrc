@@ -35,3 +35,5 @@ fi
 [ -s "/Users/mattis/.bun/_bun" ] && source "/Users/mattis/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+[ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate)"

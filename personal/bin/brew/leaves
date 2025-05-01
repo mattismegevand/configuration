@@ -1,6 +1,9 @@
 fzf
 git
+libyaml
 mpv
+ripgrep
+rust
 stow
 tmux
 uv
