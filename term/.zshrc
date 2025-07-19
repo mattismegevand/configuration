@@ -28,12 +28,9 @@ if command -v fzf &> /dev/null; then
   source <(fzf --zsh)
 fi
 
-[[ -d $HOME/bin ]] && PATH="$HOME/bin:$PATH"
 [[ -d $HOME/.local/bin ]] && PATH="$HOME/.local/bin:$PATH"
 [[ -d /opt/homebrew/bin ]] && PATH="/opt/homebrew/bin:$PATH"
 
-[ -s "/Users/mattis/.bun/_bun" ] && source "/Users/mattis/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-[ -f ~/.local/bin/mise ] && eval "$(~/.local/bin/mise activate)"
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
