@@ -34,3 +34,8 @@ fi
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
 fi
+
+pg_path="/opt/homebrew/opt/postgresql@17/bin"
+if [ -d "$pg_path" ] && [[ ":$PATH:" != *":$pg_path:"* ]]; then
+  export PATH="$pg_path:$PATH"
+fi

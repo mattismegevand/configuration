@@ -4,9 +4,7 @@ stow misc
 stow term
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    stow personal
-    xargs brew install < ~/bin/brew/leaves
-    xargs brew install < ~/bin/brew/casks
+    brew bundle install --file=personal/Brewfile
 
     defaults write -g ApplePressAndHoldEnabled -bool false
 elif [[ "$OSTYPE" == "linux"* ]]; then
