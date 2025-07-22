@@ -1,0 +1,10 @@
+[tools]
+bun = "latest"
+elixir = "latest"
+erlang = "latest"
+node = "lts"
+ruby = "3"
+uv = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = []
