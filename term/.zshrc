@@ -39,3 +39,5 @@ pg_path="/opt/homebrew/opt/postgresql@17/bin"
 if [ -d "$pg_path" ] && [[ ":$PATH:" != *":$pg_path:"* ]]; then
   export PATH="$pg_path:$PATH"
 fi
+
+[ -s "/Users/mattis/.bun/_bun" ] && source "/Users/mattis/.bun/_bun"

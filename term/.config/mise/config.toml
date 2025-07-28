@@ -2,6 +2,7 @@
 bun = "latest"
 elixir = "latest"
 erlang = "latest"
+go = "latest"
 node = "lts"
 ruby = "3"
 uv = "latest"
