@@ -8,5 +8,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
     defaults write -g ApplePressAndHoldEnabled -bool false
 elif [[ "$OSTYPE" == "linux"* ]]; then
-    stow work
+    :
 fi

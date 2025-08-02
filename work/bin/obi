@@ -1,7 +1,0 @@
-#!/bin/bash
-
-selection=$(find ~/src/odoo/addons ~/src/enterprise -mindepth 1 -maxdepth 1 -type d | rev | cut -d/ -f 1 | rev | sort | fzf -m)
-
-[ -z "$selection" ] && exit 0
-
-~/src/odoo/odoo-bin -i "$(echo "$selection" | tr '\n' ',')"

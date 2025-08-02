@@ -9,6 +9,3 @@ __pycache__/
 .ruff_cache/
 
 .vscode/*
-
-*.local.md
-*.local.json
