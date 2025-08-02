@@ -34,3 +34,9 @@ fi
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
 fi
+
+eval "$(ssh-agent -s)" > /dev/null
+SSH_KEY="$HOME/.ssh/id_ed25519"
+if ! ssh-add -l | grep -q "$SSH_KEY"; then
+  ssh-add --apple-use-keychain "$SSH_KEY" > /dev/null 2>&1
+fi
