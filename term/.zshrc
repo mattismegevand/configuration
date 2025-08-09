@@ -29,6 +29,7 @@ if command -v fzf &> /dev/null; then
 fi
 
 [[ -d $HOME/.local/bin ]] && PATH="$HOME/.local/bin:$PATH"
+[[ -d $HOME/bin ]] && PATH="$HOME/bin:$PATH"
 [[ -d /opt/homebrew/bin ]] && PATH="/opt/homebrew/bin:$PATH"
 
 if command -v mise &> /dev/null; then
@@ -39,4 +40,8 @@ eval "$(ssh-agent -s)" > /dev/null
 SSH_KEY="$HOME/.ssh/id_ed25519"
 if ! ssh-add -l | grep -q "$SSH_KEY"; then
   ssh-add --apple-use-keychain "$SSH_KEY" > /dev/null 2>&1
+fi
+
+if [ "$TERM" = "xterm-ghostty" ]; then
+  export TERM=xterm-256color
 fi

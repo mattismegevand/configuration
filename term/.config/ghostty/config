@@ -3,4 +3,3 @@ font-size = 13
 font-family = "Berkeley Mono"
 window-title-font-family = "Berkeley Mono"
 cursor-style = block
-keybind = shift+enter=text:\n

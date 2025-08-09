@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# focus.sh — Toggle distraction-blocking /etc/hosts entries
+# Usage:
+#   ./focus.sh on     → enable focus mode
+#   ./focus.sh off    → disable focus mode
+#   ./focus.sh status → check current mode
+
+# ==========================
+# CONFIG: Domains to block
+# ==========================
+BLOCKLIST=(
+    x.com www.x.com twitter.com www.twitter.com mobile.twitter.com t.co
+    reddit.com www.reddit.com old.reddit.com m.reddit.com np.reddit.com
+    instagram.com www.instagram.com m.instagram.com
+    tiktok.com www.tiktok.com m.tiktok.com
+    facebook.com www.facebook.com m.facebook.com
+    messenger.com www.messenger.com
+    news.ycombinator.com ycombinator.com www.ycombinator.com
+    hn.algolia.com
+    quora.com www.quora.com
+    9gag.com www.9gag.com imgur.com i.imgur.com
+    pinterest.com www.pinterest.com
+    snapchat.com www.snapchat.com
+    twitch.tv www.twitch.tv
+    kick.com www.kick.com
+    linkedin.com www.linkedin.com m.linkedin.com linkedin.cn
+    licdn.com www.licdn.com media.licdn.com static.licdn.com
+    lnkd.in
+)
+
+# ==========================
+# INTERNALS
+# ==========================
+HOSTS_FILE="/etc/hosts"
+BACKUP_FILE="/etc/hosts.normal"
+
+flush_dns() {
+    if command -v dscacheutil >/dev/null; then
+        sudo dscacheutil -flushcache
+        sudo killall -HUP mDNSResponder 2>/dev/null || true
+    elif command -v systemd-resolve >/dev/null; then
+        sudo systemd-resolve --flush-caches
+    elif command -v resolvectl >/dev/null; then
+        sudo resolvectl flush-caches
+    fi
+}
+
+enable_focus() {
+    # Backup original hosts if not already backed up
+    if [ ! -f "$BACKUP_FILE" ]; then
+        echo "[focus] Backing up original hosts to $BACKUP_FILE"
+        sudo cp "$HOSTS_FILE" "$BACKUP_FILE"
+    fi
+
+    echo "[focus] Enabling distraction blocklist..."
+    # Start with backup content
+    sudo cp "$BACKUP_FILE" "$HOSTS_FILE"
+
+    {
+        echo ""
+        echo "# ===== Focus Mode Blocklist ====="
+        for domain in "${BLOCKLIST[@]}"; do
+            echo "0.0.0.0 $domain"
+            echo "::1 $domain"
+        done
+    } | sudo tee -a "$HOSTS_FILE" >/dev/null
+
+    flush_dns
+    echo "[focus] ON — distractions are now blocked."
+}
+
+disable_focus() {
+    if [ -f "$BACKUP_FILE" ]; then
+        echo "[focus] Restoring original hosts..."
+        sudo cp "$BACKUP_FILE" "$HOSTS_FILE"
+        flush_dns
+        echo "[focus] OFF — back to normal."
+    else
+        echo "[focus] No backup found at $BACKUP_FILE — cannot restore."
+    fi
+}
+
+check_status() {
+    if grep -q "Focus Mode Blocklist" "$HOSTS_FILE"; then
+        echo "[focus] Currently: ON"
+    else
+        echo "[focus] Currently: OFF"
+    fi
+}
+
+# ==========================
+# MAIN
+# ==========================
+case "$1" in
+    on) enable_focus ;;
+    off) disable_focus ;;
+    status) check_status ;;
+    *)
+        echo "Usage: $0 {on|off|status}"
+        exit 1
+        ;;
+esac
+
