@@ -45,3 +45,7 @@ fi
 if [ "$TERM" = "xterm-ghostty" ]; then
   export TERM=xterm-256color
 fi
+
+if [ -f "$HOME/.env" ]; then
+  export $(grep -v '^#' "$HOME/.env" | xargs)
+fi

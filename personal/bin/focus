@@ -1,103 +1,160 @@
 #!/usr/bin/env bash
-# focus.sh — Toggle distraction-blocking /etc/hosts entries
-# Usage:
-#   ./focus.sh on     → enable focus mode
-#   ./focus.sh off    → disable focus mode
-#   ./focus.sh status → check current mode
+set -euo pipefail
 
-# ==========================
-# CONFIG: Domains to block
-# ==========================
-BLOCKLIST=(
-    x.com www.x.com twitter.com www.twitter.com mobile.twitter.com t.co
-    reddit.com www.reddit.com old.reddit.com m.reddit.com np.reddit.com
-    instagram.com www.instagram.com m.instagram.com
-    tiktok.com www.tiktok.com m.tiktok.com
-    facebook.com www.facebook.com m.facebook.com
-    messenger.com www.messenger.com
-    news.ycombinator.com ycombinator.com www.ycombinator.com
-    hn.algolia.com
-    quora.com www.quora.com
-    9gag.com www.9gag.com imgur.com i.imgur.com
-    pinterest.com www.pinterest.com
-    snapchat.com www.snapchat.com
-    twitch.tv www.twitch.tv
-    kick.com www.kick.com
-    linkedin.com www.linkedin.com m.linkedin.com linkedin.cn
-    licdn.com www.licdn.com media.licdn.com static.licdn.com
-    lnkd.in
+# nextdns-focus: Toggle focus mode categories on a NextDNS profile
+# Requires env vars: NEXTDNS_API_KEY, NEXTDNS_PROFILE_ID
+# Focus mode toggles these categories only:
+#  - porn (id: porn)
+#  - social networks (id: social-networks)
+#  - video streaming (id: video-streaming)
+
+API_KEY=${NEXTDNS_API_KEY:-}
+PROFILE_ID=${NEXTDNS_PROFILE_ID:-}
+API_ROOT="https://api.nextdns.io"
+MAX_TIME=${NEXTDNS_HTTP_TIMEOUT:-20}
+
+TARGET_CATEGORIES=(
+  "porn"
+  "social-networks"
+  "video-streaming"
 )
 
-# ==========================
-# INTERNALS
-# ==========================
-HOSTS_FILE="/etc/hosts"
-BACKUP_FILE="/etc/hosts.normal"
+usage() {
+  cat <<'USAGE'
+Usage: nextdns-focus <status|on|off>
 
-flush_dns() {
-    if command -v dscacheutil >/dev/null; then
-        sudo dscacheutil -flushcache
-        sudo killall -HUP mDNSResponder 2>/dev/null || true
-    elif command -v systemd-resolve >/dev/null; then
-        sudo systemd-resolve --flush-caches
-    elif command -v resolvectl >/dev/null; then
-        sudo resolvectl flush-caches
-    fi
+Commands:
+  status   Show focus summary for porn, social-networks, video-streaming
+  on       Enable focus (block porn, social-networks, video-streaming)
+  off      Disable focus (allow porn, social-networks, video-streaming)
+
+
+Environment:
+  NEXTDNS_API_KEY       API key (X-Api-Key)
+  NEXTDNS_PROFILE_ID    Profile ID to operate on
+
+Examples:
+  NEXTDNS_API_KEY=... NEXTDNS_PROFILE_ID=... ./nextdns-focus status
+  ./nextdns-focus on         # enable focus mode
+  ./nextdns-focus off        # disable focus mode
+
+USAGE
 }
 
-enable_focus() {
-    # Backup original hosts if not already backed up
-    if [ ! -f "$BACKUP_FILE" ]; then
-        echo "[focus] Backing up original hosts to $BACKUP_FILE"
-        sudo cp "$HOSTS_FILE" "$BACKUP_FILE"
-    fi
-
-    echo "[focus] Enabling distraction blocklist..."
-    # Start with backup content
-    sudo cp "$BACKUP_FILE" "$HOSTS_FILE"
-
-    {
-        echo ""
-        echo "# ===== Focus Mode Blocklist ====="
-        for domain in "${BLOCKLIST[@]}"; do
-            echo "0.0.0.0 $domain"
-            echo "::1 $domain"
-        done
-    } | sudo tee -a "$HOSTS_FILE" >/dev/null
-
-    flush_dns
-    echo "[focus] ON — distractions are now blocked."
+require_env() {
+  if [[ -z "${API_KEY}" || -z "${PROFILE_ID}" ]]; then
+    echo "error: NEXTDNS_API_KEY and NEXTDNS_PROFILE_ID must be set" >&2
+    exit 2
+  fi
 }
 
-disable_focus() {
-    if [ -f "$BACKUP_FILE" ]; then
-        echo "[focus] Restoring original hosts..."
-        sudo cp "$BACKUP_FILE" "$HOSTS_FILE"
-        flush_dns
-        echo "[focus] OFF — back to normal."
-    else
-        echo "[focus] No backup found at $BACKUP_FILE — cannot restore."
-    fi
+api_request() {
+  local method="$1"; shift
+  local path="$1"; shift
+  local data="${1:-}"
+  require_env
+  if [[ -n "${data}" ]]; then
+    curl -fsSL -X "${method}" \
+      -H "Accept: application/json" \
+      -H "Content-Type: application/json" \
+      -H "X-Api-Key: ${API_KEY}" \
+      --connect-timeout 5 --max-time "${MAX_TIME}" \
+      --data "${data}" \
+      "${API_ROOT}${path}" \
+      || { echo "error: API request failed (${method} ${path})" >&2; exit 1; }
+  else
+    curl -fsSL -X "${method}" \
+      -H "Accept: application/json" \
+      -H "X-Api-Key: ${API_KEY}" \
+      --connect-timeout 5 --max-time "${MAX_TIME}" \
+      "${API_ROOT}${path}" \
+      || { echo "error: API request failed (${method} ${path})" >&2; exit 1; }
+  fi
 }
 
-check_status() {
-    if grep -q "Focus Mode Blocklist" "$HOSTS_FILE"; then
-        echo "[focus] Currently: ON"
-    else
-        echo "[focus] Currently: OFF"
-    fi
+has_jq() {
+  command -v jq >/dev/null 2>&1
 }
 
-# ==========================
-# MAIN
-# ==========================
-case "$1" in
-    on) enable_focus ;;
-    off) disable_focus ;;
-    status) check_status ;;
+# no pretty printing helpers needed; keep things minimal
+
+cmd_status_focus() {
+  if has_jq; then
+    api_request GET "/profiles/${PROFILE_ID}/parentalControl/categories" | \
+      jq -r '
+        .data as $d
+        | [ $d[] | select(.id == "porn" or .id == "social-networks" or .id == "video-streaming") ] as $focus
+        | ([$focus[] | select(.id == "porn") | .active][0] // false) as $porn
+        | ([$focus[] | select(.id == "social-networks") | .active][0] // false) as $social
+        | ([$focus[] | select(.id == "video-streaming") | .active][0] // false) as $video
+        | [$porn, $social, $video] as $vals
+        | ($vals | map(select(.)) | length) as $n
+        | "focus=" + (if $n == 3 then "ON" elif $n == 0 then "OFF" else "PARTIAL" end)
+        , ($focus | sort_by(.id)[] | "\(.id)\tactive=\(.active)")'
+  else
+    echo "focus=UNKNOWN (install jq for details)"
+  fi
+}
+
+set_category_state() {
+  local cat_id="$1"
+  local state="$2" # true|false
+  # Try PATCH first; if it fails (e.g., not present), try POST to add
+  if ! api_request PATCH "/profiles/${PROFILE_ID}/parentalControl/categories/${cat_id}" "{\"active\": ${state}}" >/dev/null 2>&1; then
+    api_request POST "/profiles/${PROFILE_ID}/parentalControl/categories" "{\"id\": \"${cat_id}\", \"active\": ${state}}" >/dev/null
+  fi
+}
+
+cmd_focus_on() {
+  for cat in "${TARGET_CATEGORIES[@]}"; do
+    echo "Enabling category: ${cat}"
+    set_category_state "${cat}" true
+  done
+  echo "Focus mode ON (blocked): ${TARGET_CATEGORIES[*]}"
+}
+
+cmd_focus_off() {
+  for cat in "${TARGET_CATEGORIES[@]}"; do
+    echo "Disabling category: ${cat}"
+    set_category_state "${cat}" false
+  done
+  echo "Focus mode OFF (allowed): ${TARGET_CATEGORIES[*]}"
+}
+
+get_focus_state() {
+  # Echoes: ON|OFF|PARTIAL
+  if has_jq; then
+    api_request GET "/profiles/${PROFILE_ID}/parentalControl/categories" | jq -r '
+      .data as $d
+      | [ $d[] | select(.id == "porn" or .id == "social-networks" or .id == "video-streaming") ] as $focus
+      | ([$focus[] | select(.id == "porn") | .active][0] // false) as $porn
+      | ([$focus[] | select(.id == "social-networks") | .active][0] // false) as $social
+      | ([$focus[] | select(.id == "video-streaming") | .active][0] // false) as $video
+      | [$porn, $social, $video] as $vals
+      | ($vals | map(select(.)) | length) as $n
+      | if $n == 3 then "ON" elif $n == 0 then "OFF" else "PARTIAL" end'
+  else
+    # Fallback without jq
+    echo UNKNOWN
+  fi
+}
+
+main() {
+  local cmd="${1:-}"
+  case "${cmd}" in
+    status)
+      shift; cmd_status_focus "$@" ;;
+    on)
+      shift; cmd_focus_on "$@" ;;
+    off)
+      shift; cmd_focus_off "$@" ;;
+    -h|--help|help|"")
+      usage ;;
     *)
-        echo "Usage: $0 {on|off|status}"
-        exit 1
-        ;;
-esac
+      echo "Unknown command: ${cmd}" >&2
+      usage >&2
+      exit 1 ;;
+  esac
+}
 
+main "$@"
