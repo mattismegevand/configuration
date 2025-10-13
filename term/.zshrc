@@ -49,3 +49,5 @@ fi
 if [ -f "$HOME/.env" ]; then
   export $(grep -v '^#' "$HOME/.env" | xargs)
 fi
+
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
