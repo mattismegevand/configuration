@@ -1,6 +1,5 @@
 [tools]
 bun = "latest"
-node = "latest"
 uv = "latest"
 
 [settings]
