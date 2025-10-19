@@ -1,8 +1,26 @@
 export PS1=$'%n@%m:%F{cyan}%~%f$ '
 
-export EDITOR='nvim'
-export VISUAL='nvim'
+export EDITOR='vim'
+export VISUAL='vim'
 export PAGER='less'
+
+if [ "$TERM" = "xterm-ghostty" ]; then
+  export TERM=xterm-256color
+fi
+
+if [ -f "$HOME/.env" ]; then
+  set -a
+  source "$HOME/.env"
+  set +a
+fi
+
+typeset -U path PATH
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin $path)
+[[ -d $HOME/bin ]] && path=("$HOME/bin" $path)
+[[ -d $HOME/.local/bin ]] && path=("$HOME/.local/bin" $path)
+[[ -d $HOME/.bun/bin ]] && path=("$HOME/.bun/bin" $path)
+
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -14,40 +32,57 @@ setopt EXTENDED_HISTORY
 
 unsetopt BEEP
 
+bindkey -e
+
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-bindkey -e
-
-[[ -f ~/.aliases ]] && source ~/.aliases
-[[ -f ~/.aliases_work ]] && source ~/.aliases_work
-
 if command -v fzf &> /dev/null; then
-  source <(fzf --zsh)
-fi
+  fzf_base="${HOMEBREW_PREFIX:-}"
+  if [[ -z "$fzf_base" ]] && command -v brew &> /dev/null; then
+    fzf_base="$(brew --prefix 2>/dev/null)"
+  fi
 
-[[ -d $HOME/.local/bin ]] && PATH="$HOME/.local/bin:$PATH"
-[[ -d $HOME/bin ]] && PATH="$HOME/bin:$PATH"
-[[ -d /opt/homebrew/bin ]] && PATH="/opt/homebrew/bin:$PATH"
+  if [[ -n "$fzf_base" && -r "$fzf_base/opt/fzf/shell/completion.zsh" ]]; then
+    source "$fzf_base/opt/fzf/shell/completion.zsh"
+    source "$fzf_base/opt/fzf/shell/key-bindings.zsh"
+  elif [[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    [[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+  else
+    source <(fzf --zsh)
+  fi
+
+  unset fzf_base
+fi
 
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
 fi
 
-eval "$(ssh-agent -s)" > /dev/null
-SSH_KEY="$HOME/.ssh/id_ed25519"
-if ! ssh-add -l | grep -q "$SSH_KEY"; then
-  ssh-add --apple-use-keychain "$SSH_KEY" > /dev/null 2>&1
+if command -v ssh-add &> /dev/null; then
+  SSH_KEY="$HOME/.ssh/id_ed25519"
+  SSH_KEY_FP=""
+  if [[ -r "$SSH_KEY" ]] && command -v ssh-keygen &> /dev/null; then
+    SSH_KEY_FP="$(ssh-keygen -lf "$SSH_KEY" 2>/dev/null | awk '{print $2}')"
+  fi
+
+  if [[ "$(uname)" == "Darwin" ]]; then
+    if [[ -n "$SSH_KEY_FP" ]] && ! ssh-add -l 2>/dev/null | awk '{print $2}' | grep -qF "$SSH_KEY_FP"; then
+      ssh-add --apple-use-keychain "$SSH_KEY" > /dev/null 2>&1
+    fi
+  else
+    if [[ -z "${SSH_AUTH_SOCK:-}" ]] || ! ssh-add -l &> /dev/null; then
+      eval "$(ssh-agent -s)" > /dev/null
+    fi
+    if [[ -n "$SSH_KEY_FP" ]] && ! ssh-add -l 2>/dev/null | awk '{print $2}' | grep -qF "$SSH_KEY_FP"; then
+      ssh-add "$SSH_KEY" > /dev/null 2>&1
+    fi
+  fi
+  unset SSH_KEY_FP
 fi
 
-if [ "$TERM" = "xterm-ghostty" ]; then
-  export TERM=xterm-256color
-fi
-
-if [ -f "$HOME/.env" ]; then
-  export $(grep -v '^#' "$HOME/.env" | xargs)
-fi
-
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+[[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f ~/.aliases_work ]] && source ~/.aliases_work
