@@ -9,8 +9,7 @@ if ! command -v stow >/dev/null 2>&1; then
     exit 1
 fi
 
-stow misc
-stow term
+stow --restow --target="$HOME" misc term
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     if command -v brew >/dev/null 2>&1; then

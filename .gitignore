@@ -1,3 +1,5 @@
-term/.config
-!term/.config/ghostty
-!term/.config/mise
+term/.config/*
+!term/.config/ghostty/
+!term/.config/ghostty/**
+!term/.config/mise/
+!term/.config/mise/**

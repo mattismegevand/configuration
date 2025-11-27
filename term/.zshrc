@@ -35,7 +35,9 @@ unsetopt BEEP
 bindkey -e
 
 autoload -Uz compinit
-compinit
+ZCOMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+mkdir -p "${ZCOMPDUMP:h}"
+compinit -d "$ZCOMPDUMP"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
