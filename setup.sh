@@ -22,5 +22,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     defaults write -g ApplePressAndHoldEnabled -bool false
     defaults write -g KeyRepeat -int 1
 elif [[ "$OSTYPE" == "linux"* ]]; then
-    :
+  stow --restow --target="$HOME" work
 fi
