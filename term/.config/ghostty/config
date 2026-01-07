@@ -1,5 +1,6 @@
 theme = Builtin Tango Dark
 font-size = 13
 font-family = "Berkeley Mono"
+macos-titlebar-style = tabs
 window-title-font-family = "Berkeley Mono"
 cursor-style = block
