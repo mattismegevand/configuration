@@ -1,0 +1,92 @@
+# Aerospace configuration - mirrors omarchy hyprland keybindings
+# Super key mapped to alt (option) for macOS
+
+config-version = 2
+start-at-login = true
+
+# Tiling layout by default
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# When focusing a monitor, focus the workspace with most recent activity
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Mouse follows focus
+on-focus-changed = ['move-mouse window-lazy-center']
+
+[gaps]
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = 8
+outer.right = 8
+
+[mode.main.binding]
+# Navigation - focus
+alt-left = 'focus left'
+alt-down = 'focus down'
+alt-up = 'focus up'
+alt-right = 'focus right'
+
+# Navigation - move windows
+alt-shift-left = 'move left'
+alt-shift-down = 'move down'
+alt-shift-up = 'move up'
+alt-shift-right = 'move right'
+
+# Workspace switching
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+
+# Workspace navigation
+alt-tab = 'workspace next'
+alt-shift-tab = 'workspace prev'
+alt-ctrl-tab = 'workspace-back-and-forth'
+
+# Move window to workspace
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+
+# Window management
+alt-w = 'close'
+alt-t = 'layout floating tiling'
+alt-f = 'fullscreen'
+alt-equal = 'resize smart +50'
+alt-minus = 'resize smart -50'
+
+# App launching (AppleScript to open new windows)
+alt-enter = 'exec-and-forget open -n -a Ghostty'
+alt-shift-b = '''exec-and-forget osascript -e '
+tell application "Brave Browser"
+    make new window
+    activate
+end tell'
+'''
+alt-shift-f = 'exec-and-forget open -a Finder'
+alt-shift-slash = 'exec-and-forget open -a 1Password'
+
+# Scratchpad simulation using workspace S
+alt-s = 'workspace S'
+alt-shift-s = 'move-node-to-workspace S'
+
+# Layout cycling
+alt-space = 'layout tiles horizontal vertical'
+
+# Reload config
+alt-shift-r = 'reload-config'
+

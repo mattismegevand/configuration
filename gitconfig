@@ -1,0 +1,41 @@
+[user]
+	name = Mattis Megevand
+	email = megevand.mattis@gmail.com
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+	pager = delta
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[rebase]
+	autoStash = true
+[alias]
+	st = status -sb
+	co = checkout
+	br = branch
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	lg = log --oneline --graph --decorate -20
+[rerere]
+	enabled = true
+[merge]
+	conflictstyle = zdiff3
+[fetch]
+	prune = true
+[diff]
+	algorithm = histogram
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	side-by-side = false

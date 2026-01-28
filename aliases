@@ -1,0 +1,50 @@
+alias cp="cp -iv"
+alias ln="ln -v"
+alias mv="mv -iv"
+
+alias ls="eza"
+alias ll="eza -la"
+alias la="eza -a"
+alias lt="eza --tree"
+alias cat="bat --paging=never"
+
+alias g="git"
+alias gs="git status"
+alias gd="git diff"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+alias gl="git log --oneline -20"
+
+alias update="cd ~/configuration && nix flake update"
+alias cleanup="sudo nix-collect-garbage -d"
+
+notes_file() {
+    local icloud_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+    if [[ "$(uname)" == "Darwin" && -d "$icloud_dir" ]]; then
+        printf '%s\n' "$icloud_dir/notes.txt"
+    else
+        printf '%s\n' "$HOME/notes.txt"
+    fi
+}
+
+todo_file() {
+    local icloud_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+    if [[ "$(uname)" == "Darwin" && -d "$icloud_dir" ]]; then
+        printf '%s\n' "$icloud_dir/todo.txt"
+    else
+        printf '%s\n' "$HOME/todo.txt"
+    fi
+}
+
+notes() {
+    local file
+    file="$(notes_file)"
+    "${EDITOR:-vim}" "$file"
+}
+
+todo() {
+    local file
+    file="$(todo_file)"
+    "${EDITOR:-vim}" "$file"
+}

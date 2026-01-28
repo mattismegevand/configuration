@@ -1,0 +1,38 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+.envrc
+.direnv/
+.idea/
+.vscode/
+*.log
+node_modules/
+__pycache__/
+*.pyc
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+target/
+dist/
+build/
+
+# Environment files
+.env.local
+.env*.local
+
+# Web frameworks
+.next/
+.nuxt/
+.vercel/
+.netlify/
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# Caches
+.eslintcache
+.stylelintcache

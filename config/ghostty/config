@@ -1,0 +1,10 @@
+theme = Builtin Tango Dark
+font-size = 13
+font-family = "Berkeley Mono"
+font-family = "Menlo"
+window-title-font-family = "Berkeley Mono"
+cursor-style = block
+shell-integration = detect
+mouse-hide-while-typing = true
+window-padding-x = 4
+window-padding-y = 4

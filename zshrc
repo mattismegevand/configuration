@@ -1,0 +1,86 @@
+# Exit early for non-interactive shells
+[[ $- != *i* ]] && return
+
+export PS1=$'%n@%m:%F{cyan}%~%f$ '
+
+export EDITOR='vim'
+export VISUAL='vim'
+export PAGER='less'
+export HOMEBREW_NO_AUTO_UPDATE=1
+export LESS="-R -X -F"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+
+if [ "$TERM" = "xterm-ghostty" ]; then
+  export TERM=xterm-256color
+fi
+
+if [ -f "$HOME/.env" ]; then
+  set -a
+  source "$HOME/.env"
+  set +a
+fi
+
+typeset -U path PATH
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin $path)
+[[ -d $HOME/bin ]] && path=("$HOME/bin" $path)
+[[ -d $HOME/.local/bin ]] && path=("$HOME/.local/bin" $path)
+[[ -d $HOME/.bun/bin ]] && path=("$HOME/.bun/bin" $path)
+
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_FIND_NO_DUPS
+
+unsetopt BEEP
+
+bindkey -e
+
+setopt EXTENDED_GLOB
+autoload -Uz compinit
+ZCOMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+mkdir -p "${ZCOMPDUMP:h}"
+# Only regenerate once per day
+if [[ -n ${ZCOMPDUMP}(#qN.mh+24) ]]; then
+  compinit -d "$ZCOMPDUMP"
+else
+  compinit -C -d "$ZCOMPDUMP"
+fi
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+if command -v fzf &> /dev/null; then
+  fzf_base="${HOMEBREW_PREFIX:-}"
+  if [[ -z "$fzf_base" ]] && command -v brew &> /dev/null; then
+    fzf_base="$(brew --prefix 2>/dev/null)"
+  fi
+
+  if [[ -n "$fzf_base" && -r "$fzf_base/opt/fzf/shell/completion.zsh" ]]; then
+    source "$fzf_base/opt/fzf/shell/completion.zsh"
+    source "$fzf_base/opt/fzf/shell/key-bindings.zsh"
+  elif [[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    [[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+  else
+    source <(fzf --zsh)
+  fi
+
+  unset fzf_base
+fi
+
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
+[[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f ~/.aliases_work ]] && source ~/.aliases_work
+
+# Syntax highlighting and autosuggestions
+source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
