@@ -28,6 +28,7 @@
       "cleanshot"
       "ghostty"
       "iina"
+      "netnewswire"
       "orbstack"
       "stremio"
       "transmission"
@@ -36,7 +37,6 @@
 
     # Mac App Store apps (requires mas CLI)
     masApps = {
-      "NetNewsWire" = 1480640210;
       "Tailscale" = 1475387142;
     };
   };
