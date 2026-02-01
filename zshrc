@@ -78,6 +78,21 @@ if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
 fi
 
+# Direnv - auto-load .envrc files
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+# Atuin - better shell history
+if command -v atuin &> /dev/null; then
+  eval "$(atuin init zsh)"
+fi
+
+# Zoxide - smarter cd
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.aliases_work ]] && source ~/.aliases_work
 

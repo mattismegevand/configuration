@@ -26,6 +26,12 @@
     gh
     gnupg
     hyperfine
+
+    # Shell enhancements
+    atuin
+    direnv
+    lazygit
+    zoxide
   ];
 
   # Create /etc/zshrc that loads the nix-darwin environment
