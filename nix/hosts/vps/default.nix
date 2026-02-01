@@ -9,6 +9,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Hetzner Cloud (QEMU) hardware support
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+  boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
+
   # Networking
   networking.hostName = "vps";
 
