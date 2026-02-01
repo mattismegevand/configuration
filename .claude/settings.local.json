@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:nikitabobko.github.io)"
+      "WebFetch(domain:nikitabobko.github.io)",
+      "Bash(nix flake check:*)"
     ]
   }
 }

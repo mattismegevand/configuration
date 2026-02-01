@@ -15,9 +15,14 @@
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko }:
     let
       username = "mattis";
     in
@@ -47,19 +52,21 @@
               useUserPackages = true;
               backupFileExtension = "backup";
               extraSpecialArgs = { inherit inputs username; };
-              users.${username} = import ./nix/modules/home;
+              users.${username} = import ./nix/modules/home/darwin.nix;
             };
           }
         ];
       };
 
-      # NixOS configuration (placeholder for future Linux machines)
-      nixosConfigurations."nixos-example" = nixpkgs.lib.nixosSystem {
+      # Hetzner VPS with Tailscale SSH
+      nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs username; };
         modules = [
-          ./nix/hosts/nixos-example
+          ./nix/hosts/vps
           ./nix/modules/nixos
+
+          disko.nixosModules.disko
 
           home-manager.nixosModules.home-manager
           {
@@ -67,7 +74,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = { inherit inputs username; };
-              users.${username} = import ./nix/modules/home;
+              users.${username} = import ./nix/modules/home/linux.nix;
             };
           }
         ];

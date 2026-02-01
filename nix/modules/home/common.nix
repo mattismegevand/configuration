@@ -38,9 +38,7 @@ in
   };
 
   xdg.configFile = {
-    "ghostty/config".source = "${configDir}/config/ghostty/config";
     "mise/config.toml".source = "${configDir}/config/mise/config.toml";
-    "aerospace/aerospace.toml".source = "${configDir}/config/aerospace/aerospace.toml";
   };
 
   programs = {
