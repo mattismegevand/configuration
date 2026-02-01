@@ -80,7 +80,21 @@
       TrackpadThreeFingerDrag = true;
     };
 
+    # Screensaver - start after 5 minutes (300 seconds)
+    screensaver = {
+      askForPassword = true;
+      askForPasswordDelay = 0;
+    };
+
   };
+
+  # Power management - display sleep after 15 minutes
+  system.activationScripts.postActivation.text = ''
+    # Screensaver starts after 5 minutes
+    defaults -currentHost write com.apple.screensaver idleTime -int 300
+    # Display sleep after 15 minutes (value in minutes)
+    sudo pmset -a displaysleep 15
+  '';
 
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;

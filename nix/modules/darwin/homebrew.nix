@@ -14,7 +14,6 @@
 
     # Homebrew taps
     taps = [
-      "nikitabobko/tap"  # aerospace
     ];
 
     # CLI tools from Homebrew (prefer nix packages when available)
@@ -25,7 +24,6 @@
     # GUI applications
     casks = [
       "1password"
-      "aerospace"
       "brave-browser"
       "ghostty"
       "iina"
