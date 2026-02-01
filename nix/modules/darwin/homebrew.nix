@@ -25,7 +25,7 @@
     casks = [
       "1password"
       "brave-browser"
-      "cleanshot-x"
+      "cleanshot"
       "ghostty"
       "iina"
       "orbstack"
