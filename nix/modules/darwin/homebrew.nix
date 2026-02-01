@@ -36,6 +36,7 @@
 
     # Mac App Store apps (requires mas CLI)
     masApps = {
+      "NetNewsWire" = 1480640210;
       "Tailscale" = 1475387142;
     };
   };
