@@ -84,11 +84,13 @@ in
     };
     ssh = {
       enable = true;
-      extraConfig = ''
-        Host *
-            IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-      '';
+      enableDefaultConfig = false;
       includes = [ "~/.orbstack/ssh/config" ];
+      matchBlocks."*" = {
+        extraOptions = {
+          IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+        };
+      };
     };
   };
 }
