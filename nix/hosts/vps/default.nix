@@ -41,7 +41,9 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
+    bat
     curl
+    eza
     git
     htop
     vim
