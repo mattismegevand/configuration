@@ -39,6 +39,9 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
+  # Enable nix-ld for running dynamically linked binaries (mise tools)
+  programs.nix-ld.enable = true;
+
   # System packages (VPS-specific, shared tools are in home-manager)
   environment.systemPackages = with pkgs; [
     # Build dependencies for mise-managed tools
