@@ -18,7 +18,6 @@
 
     # CLI tools from Homebrew (prefer nix packages when available)
     brews = [
-      "mise" # Dev tool version manager
       "mole" # macOS system optimization tool
     ];
 
