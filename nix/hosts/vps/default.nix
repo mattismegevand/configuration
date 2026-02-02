@@ -39,17 +39,8 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
-  # System packages
+  # System packages (VPS-specific, shared tools are in home-manager)
   environment.systemPackages = with pkgs; [
-    bat
-    curl
-    eza
-    git
-    htop
-    mise
-    vim
-    wget
-
     # Build dependencies for mise-managed tools
     gcc
     gnumake

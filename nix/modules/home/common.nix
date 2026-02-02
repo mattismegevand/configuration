@@ -10,12 +10,40 @@ in
     stateVersion = "24.05";
 
     packages = with pkgs; [
+      # AI coding tools
       claude-code
       codex
-      gh
+
+      # Core utilities
+      coreutils
+      curl
+      git
       git-lfs
+      wget
+
+      # Modern CLI tools
+      bat
+      btop
+      eza
+      fd
+      fzf
+      jq
+      ripgrep
+
+      # Development
+      delta
+      gh
+      gnupg
+      hyperfine
+      mise
+
+      # Shell enhancements
+      atuin
+      direnv
+      lazygit
       tmux
       vim
+      zoxide
       zsh-autosuggestions
       zsh-syntax-highlighting
     ];

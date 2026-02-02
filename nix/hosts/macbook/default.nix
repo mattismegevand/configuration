@@ -4,34 +4,9 @@
   # Let Determinate Nix manage the nix daemon
   nix.enable = false;
 
-  # System packages available globally
+  # System packages (macOS-specific, shared tools are in home-manager)
   environment.systemPackages = with pkgs; [
-    # Core utilities
-    coreutils
-    curl
-    git
-    wget
-
-    # Modern CLI tools
-    bat
-    btop
-    eza
-    fd
-    fzf
-    jq
-    ripgrep
-
-    # Development
-    delta
-    gh
-    gnupg
-    hyperfine
-
-    # Shell enhancements
-    atuin
-    direnv
-    lazygit
-    zoxide
+    # These are needed at system level on macOS
   ];
 
   # Create /etc/zshrc that loads the nix-darwin environment

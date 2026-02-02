@@ -17,14 +17,7 @@
   # Disable traditional SSH - Tailscale SSH handles access
   services.openssh.enable = false;
 
-  # Common server packages
-  environment.systemPackages = with pkgs; [
-    curl
-    git
-    htop
-    vim
-    wget
-  ];
+  # Common tools are in home-manager
 
   # Nix settings
   nix.settings = {
