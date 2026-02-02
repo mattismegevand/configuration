@@ -31,6 +31,7 @@ in
       ripgrep
 
       # Development
+      _1password-cli
       delta
       gh
       gnupg
@@ -39,7 +40,6 @@ in
 
       # Shell enhancements
       atuin
-      direnv
       lazygit
       tmux
       vim
@@ -77,6 +77,10 @@ in
     fzf = {
       enable = true;
       enableZshIntegration = false;  # Handled in zshrc
+    };
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
   };
 }
