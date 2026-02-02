@@ -46,8 +46,16 @@
     eza
     git
     htop
+    mise
     vim
     wget
+
+    # Build dependencies for mise-managed tools
+    gcc
+    gnumake
+    openssl
+    pkg-config
+    zlib
   ];
 
   # User account

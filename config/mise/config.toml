@@ -1,8 +1,12 @@
 [tools]
 bun = "latest"
+go = "latest"
 node = "lts"
 rust = "latest"
 uv = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@openai/codex" = "latest"
+"go:github.com/opencode-ai/opencode" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = []
