@@ -20,9 +20,19 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    codex-cli = {
+      url = "github:sadjow/codex-cli-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko, claude-code, codex-cli }:
     let
       username = "mattis";
     in
@@ -34,6 +44,14 @@
         modules = [
           ./nix/hosts/macbook
           ./nix/modules/darwin
+
+          {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              claude-code.overlays.default
+              codex-cli.overlays.default
+            ];
+          }
 
           nix-homebrew.darwinModules.nix-homebrew
           {
@@ -65,6 +83,14 @@
         modules = [
           ./nix/hosts/vps
           ./nix/modules/nixos
+
+          {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              claude-code.overlays.default
+              codex-cli.overlays.default
+            ];
+          }
 
           disko.nixosModules.disko
 

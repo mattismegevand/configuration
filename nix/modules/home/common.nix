@@ -10,6 +10,9 @@ in
     stateVersion = "24.05";
 
     packages = with pkgs; [
+      claude-code
+      codex
+      gh
       git-lfs
       tmux
       vim
