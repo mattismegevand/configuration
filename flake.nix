@@ -35,6 +35,15 @@
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko, claude-code, codex-cli }:
     let
       username = "mattis";
+
+      # Common nixpkgs configuration for all systems
+      nixpkgsConfig = {
+        nixpkgs.config.allowUnfree = true;
+        nixpkgs.overlays = [
+          claude-code.overlays.default
+          codex-cli.overlays.default
+        ];
+      };
     in
     {
       # macOS configuration
@@ -44,15 +53,7 @@
         modules = [
           ./nix/hosts/macbook
           ./nix/modules/darwin
-
-          {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = [
-              claude-code.overlays.default
-              codex-cli.overlays.default
-            ];
-          }
-
+          nixpkgsConfig
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
@@ -83,15 +84,7 @@
         modules = [
           ./nix/hosts/vps
           ./nix/modules/nixos
-
-          {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = [
-              claude-code.overlays.default
-              codex-cli.overlays.default
-            ];
-          }
-
+          nixpkgsConfig
           disko.nixosModules.disko
 
           home-manager.nixosModules.home-manager

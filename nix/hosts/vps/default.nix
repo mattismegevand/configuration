@@ -1,29 +1,26 @@
 { lib, pkgs, username, ... }:
 
 {
-  imports = [
-    ./disk-config.nix
-  ];
+  imports = [ ./disk-config.nix ];
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Hetzner Cloud (QEMU) hardware support
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
-  boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
-
-  # Networking
-  networking.hostName = "vps";
-
-  # Tailscale for convenient access
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    extraUpFlags = [ "--ssh" ];
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+    kernelModules = [ "kvm-intel" "kvm-amd" ];
   };
 
-  # Standard SSH with key authentication (no passwords)
+  networking = {
+    hostName = "vps";
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+      trustedInterfaces = [ "tailscale0" ];
+    };
+  };
+
   services.openssh = {
     enable = lib.mkForce true;
     settings = {
@@ -32,27 +29,14 @@
     };
   };
 
-  # Firewall allows SSH (port 22) and Tailscale
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 22 ];
-    trustedInterfaces = [ "tailscale0" ];
-  };
-
-  # Enable nix-ld for running dynamically linked binaries (mise tools)
   programs.nix-ld.enable = true;
+  programs.zsh.enable = true;
+  security.sudo.wheelNeedsPassword = false;
+  system.stateVersion = "24.05";
 
-  # System packages (VPS-specific, shared tools are in home-manager)
-  environment.systemPackages = with pkgs; [
-    # Build dependencies for mise-managed tools
-    gcc
-    gnumake
-    openssl
-    pkg-config
-    zlib
-  ];
+  # Build dependencies for mise-managed tools
+  environment.systemPackages = with pkgs; [ gcc gnumake openssl pkg-config zlib ];
 
-  # User account
   users.users.${username} = {
     isNormalUser = true;
     home = "/home/${username}";
@@ -62,19 +46,4 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDN3khmVi+gULsabC9iHGTJHI1wyxoUYgBmY676o88BS mattis@macbook"
     ];
   };
-
-  # Enable zsh
-  programs.zsh.enable = true;
-
-  # Allow wheel group to use sudo
-  security.sudo.wheelNeedsPassword = false;
-
-  # Nix settings
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "root" username ];
-  };
-
-  # System state version
-  system.stateVersion = "24.05";
 }
