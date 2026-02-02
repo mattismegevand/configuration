@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ lib, pkgs, username, ... }:
 
 {
   imports = [
@@ -16,22 +16,28 @@
   # Networking
   networking.hostName = "vps";
 
-  # Tailscale with SSH enabled
+  # Tailscale for convenient access
   services.tailscale = {
     enable = true;
     openFirewall = true;
     extraUpFlags = [ "--ssh" ];
   };
 
-  # Firewall - no public SSH, Tailscale handles access
-  networking.firewall = {
-    enable = true;
-    trustedInterfaces = [ "tailscale0" ];
-    # No port 22 exposed - Tailscale SSH only
+  # Standard SSH with key authentication (no passwords)
+  services.openssh = {
+    enable = lib.mkForce true;
+    settings = {
+      PermitRootLogin = "prohibit-password";
+      PasswordAuthentication = false;
+    };
   };
 
-  # Disable traditional OpenSSH - using Tailscale SSH instead
-  services.openssh.enable = false;
+  # Firewall allows SSH (port 22) and Tailscale
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+    trustedInterfaces = [ "tailscale0" ];
+  };
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -48,6 +54,9 @@
     home = "/home/${username}";
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDN3khmVi+gULsabC9iHGTJHI1wyxoUYgBmY676o88BS mattis@macbook"
+    ];
   };
 
   # Enable zsh
