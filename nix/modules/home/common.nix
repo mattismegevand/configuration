@@ -11,8 +11,7 @@ in
 
     packages = with pkgs; [
       # AI coding tools
-      claude-code
-      codex
+      opencode
 
       # Core utilities
       coreutils

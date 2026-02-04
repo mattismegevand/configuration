@@ -21,28 +21,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    claude-code = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    codex-cli = {
-      url = "github:sadjow/codex-cli-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko, claude-code, codex-cli }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko }:
     let
       username = "mattis";
 
       # Common nixpkgs configuration for all systems
       nixpkgsConfig = {
         nixpkgs.config.allowUnfree = true;
-        nixpkgs.overlays = [
-          claude-code.overlays.default
-          codex-cli.overlays.default
-        ];
       };
     in
     {
