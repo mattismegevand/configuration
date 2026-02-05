@@ -14,6 +14,7 @@ if [ "$TERM" = "xterm-ghostty" ]; then
   export TERM=xterm-256color
 fi
 
+# Note: secrets here are exported to all child processes
 if [ -f "$HOME/.env" ]; then
   set -a
   source "$HOME/.env"
@@ -56,22 +57,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 if command -v fzf &> /dev/null; then
-  fzf_base="${HOMEBREW_PREFIX:-}"
-  if [[ -z "$fzf_base" ]] && command -v brew &> /dev/null; then
-    fzf_base="$(brew --prefix 2>/dev/null)"
-  fi
-
-  if [[ -n "$fzf_base" && -r "$fzf_base/opt/fzf/shell/completion.zsh" ]]; then
-    source "$fzf_base/opt/fzf/shell/completion.zsh"
-    source "$fzf_base/opt/fzf/shell/key-bindings.zsh"
-  elif [[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-    [[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
-  else
-    source <(fzf --zsh)
-  fi
-
-  unset fzf_base
+  source <(fzf --zsh)
 fi
 
 if command -v mise &> /dev/null; then
@@ -96,6 +82,6 @@ fi
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.aliases_work ]] && source ~/.aliases_work
 
-# Syntax highlighting and autosuggestions
+# Syntax highlighting and autosuggestions (Nix-managed paths)
 source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null

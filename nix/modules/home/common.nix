@@ -47,12 +47,6 @@ in
       zsh-syntax-highlighting
     ];
 
-    sessionVariables = {
-      EDITOR = "vim";
-      VISUAL = "vim";
-      PAGER = "less";
-    };
-
     file = {
       ".vimrc".source = "${configDir}/vimrc";
       ".tmux.conf".source = "${configDir}/tmux.conf";
@@ -79,6 +73,7 @@ in
     };
     direnv = {
       enable = true;
+      enableZshIntegration = false; # Handled in zshrc
       nix-direnv.enable = true;
     };
     ssh = {

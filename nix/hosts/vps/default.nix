@@ -17,14 +17,13 @@
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 ];
-      trustedInterfaces = [ "tailscale0" ];
     };
   };
 
   services.openssh = {
     enable = lib.mkForce true;
     settings = {
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = "no";
       PasswordAuthentication = false;
     };
   };
