@@ -2,7 +2,6 @@
 bun = "latest"
 go = "latest"
 node = "lts"
-rust = "latest"
 uv = "latest"
 
 [settings]
