@@ -1,4 +1,4 @@
-{ config, username, ... }:
+{ config, username, hostname, ... }:
 
 let
   configDir = ../../..;
@@ -17,6 +17,10 @@ in
 
   xdg.configFile = {
     "ghostty/config".source = "${configDir}/config/ghostty/config";
-    "aerospace/aerospace.toml".source = "${configDir}/config/aerospace/aerospace.toml";
+    "1Password/ssh/agent.toml".text = ''
+      [[ssh-keys]]
+      item = "${hostname}"
+      vault = "Personal"
+    '';
   };
 }
