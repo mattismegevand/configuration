@@ -28,6 +28,11 @@ rebuild() {
   fi
 }
 
+update() {
+  cd ~/configuration || return
+  nix flake update && rebuild
+}
+
 notes_file() {
     local icloud_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
     if [[ "$(uname)" == "Darwin" && -d "$icloud_dir" ]]; then

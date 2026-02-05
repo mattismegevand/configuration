@@ -61,6 +61,12 @@
       PMPrintingExpandedStateForPrint2 = true;
     };
 
+    # Prevent .DS_Store on network and USB drives
+    CustomUserPreferences."com.apple.desktopservices" = {
+      DSDontWriteNetworkStores = true;
+      DSDontWriteUSBStores = true;
+    };
+
     # Login window
     loginwindow = {
       GuestEnabled = false;

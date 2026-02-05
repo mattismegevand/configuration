@@ -8,6 +8,9 @@ export VISUAL='vim'
 export PAGER='less'
 export HOMEBREW_NO_AUTO_UPDATE=1
 export LESS="-R -X -F"
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 if [ "$TERM" = "xterm-ghostty" ]; then

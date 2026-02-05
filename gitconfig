@@ -25,6 +25,11 @@
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	lg = log --oneline --graph --decorate -20
+	fixup = commit --fixup
+[branch]
+	sort = -committerdate
+[commit]
+	verbose = true
 [rerere]
 	enabled = true
 [merge]
