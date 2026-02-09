@@ -7,6 +7,31 @@ in
 {
   imports = [ ./common.nix ];
 
+  services.espanso = {
+    enable = true;
+    configs.default = {
+      show_notifications = false;
+    };
+    matches = {
+      base = {
+        matches = [
+          {
+            trigger = ":li";
+            replace = "https://linkedin.com/in/mattismegevand";
+          }
+          {
+            trigger = ":gh";
+            replace = "https://github.com/mattismegevand";
+          }
+          {
+            trigger = ":web";
+            replace = "https://mattismegevand.com/";
+          }
+        ];
+      };
+    };
+  };
+
   home.file = {
     "Library/Fonts/BerkeleyMono-Regular.otf".source = mkSymlink "${fontDir}/BerkeleyMono-Regular.otf";
     "Library/Fonts/BerkeleyMono-Bold.otf".source = mkSymlink "${fontDir}/BerkeleyMono-Bold.otf";
