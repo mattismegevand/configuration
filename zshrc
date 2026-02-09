@@ -86,5 +86,9 @@ fi
 [[ -f ~/.aliases_work ]] && source ~/.aliases_work
 
 # Syntax highlighting and autosuggestions (Nix-managed paths)
-source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-source /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+for p in /run/current-system/sw/share $HOME/.nix-profile/share /etc/profiles/per-user/$USER/share; do
+  [[ -f "$p/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && { source "$p/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; break; }
+done
+for p in /run/current-system/sw/share $HOME/.nix-profile/share /etc/profiles/per-user/$USER/share; do
+  [[ -f "$p/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && { source "$p/zsh-autosuggestions/zsh-autosuggestions.zsh"; break; }
+done

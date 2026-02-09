@@ -12,8 +12,6 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
-  services.openssh.enable = false;
-
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];

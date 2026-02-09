@@ -1,8 +1,5 @@
-{ pkgs, username, ... }:
+{ pkgs, username, configDir, ... }:
 
-let
-  configDir = ../../..;  # Points to repo root
-in
 {
   home = {
     inherit username;

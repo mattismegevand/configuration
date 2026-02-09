@@ -1,7 +1,6 @@
-{ config, username, hostname, ... }:
+{ config, username, hostname, configDir, ... }:
 
 let
-  configDir = ../../..;
   fontDir = "/Users/${username}/Library/Mobile Documents/com~apple~CloudDocs/misc/250223LKQVJ0407L/TX-02-4K4X9N9Y";
   mkSymlink = config.lib.file.mkOutOfStoreSymlink;
 in

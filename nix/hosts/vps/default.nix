@@ -1,4 +1,4 @@
-{ lib, pkgs, username, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [ ./disk-config.nix ];
@@ -21,7 +21,7 @@
   };
 
   services.openssh = {
-    enable = lib.mkForce true;
+    enable = true;
     settings = {
       PermitRootLogin = "no";
       PasswordAuthentication = false;
