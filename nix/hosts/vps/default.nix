@@ -16,21 +16,24 @@
     hostName = "vps";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
     };
   };
 
   services.openssh = {
     enable = true;
     settings = {
+      AllowUsers = [ username ];
+      KbdInteractiveAuthentication = false;
+      MaxAuthTries = 3;
       PermitRootLogin = "no";
       PasswordAuthentication = false;
+      X11Forwarding = false;
     };
   };
 
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
   system.stateVersion = "24.05";
 
   # Build dependencies for mise-managed tools

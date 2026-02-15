@@ -27,4 +27,11 @@
       dates = [ "weekly" ];
     };
   };
+
+  system.autoUpgrade = {
+    enable = true;
+    dates = "daily";
+    randomizedDelaySec = "45min";
+    allowReboot = true;
+  };
 }
