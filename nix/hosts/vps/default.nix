@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, username, inputs, ... }:
 
 {
   imports = [ ./disk-config.nix ];
@@ -37,7 +37,14 @@
   system.stateVersion = "24.05";
 
   # Build dependencies for mise-managed tools
-  environment.systemPackages = with pkgs; [ gcc gnumake openssl pkg-config zlib ];
+  environment.systemPackages = with pkgs; [
+    gcc
+    gnumake
+    openssl
+    pkg-config
+    zlib
+    inputs.openclaw.packages.x86_64-linux.openclaw
+  ];
 
   users.users.${username} = {
     isNormalUser = true;
