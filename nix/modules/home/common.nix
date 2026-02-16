@@ -8,7 +8,7 @@
 
     packages = with pkgs; [
       # AI coding tools
-      opencode
+      codex
 
       # Core utilities
       coreutils
