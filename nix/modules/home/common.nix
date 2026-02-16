@@ -8,8 +8,6 @@
 
     packages = with pkgs; [
       # AI coding tools
-      codex
-
       # Core utilities
       coreutils
       curl
