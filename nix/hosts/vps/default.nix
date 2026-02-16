@@ -31,7 +31,15 @@
     };
   };
 
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib
+      openssl
+      icu
+    ];
+  };
   programs.zsh.enable = true;
   security.sudo.wheelNeedsPassword = true;
   system.stateVersion = "24.05";
