@@ -51,7 +51,6 @@
     openssl
     pkg-config
     zlib
-    inputs.openclaw.packages.x86_64-linux.openclaw
   ];
 
   users.users.${username} = {

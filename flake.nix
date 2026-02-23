@@ -21,11 +21,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    openclaw.url = "github:openclaw/nix-openclaw";
-
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko, openclaw }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko }:
     let
       username = "mattis";
 
