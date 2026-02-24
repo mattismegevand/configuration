@@ -30,7 +30,6 @@
       "iina"
       "netnewswire"
       "orbstack"
-      "stremio"
       "transmission"
       "visual-studio-code"
     ];
