@@ -1,24 +1,27 @@
 {
   config,
-  username,
+  lib,
   hostname,
   configDir,
+  berkeleyMonoFontDir ? null,
   ...
 }:
 
 let
-  fontDir = "/Users/${username}/Library/Mobile Documents/com~apple~CloudDocs/misc/250223LKQVJ0407L/TX-02-4K4X9N9Y";
   mkSymlink = config.lib.file.mkOutOfStoreSymlink;
 in
 {
   imports = [ ./common.nix ];
 
-  home.file = {
-    "Library/Fonts/BerkeleyMono-Regular.otf".source = mkSymlink "${fontDir}/BerkeleyMono-Regular.otf";
-    "Library/Fonts/BerkeleyMono-Bold.otf".source = mkSymlink "${fontDir}/BerkeleyMono-Bold.otf";
-    "Library/Fonts/BerkeleyMono-Oblique.otf".source = mkSymlink "${fontDir}/BerkeleyMono-Oblique.otf";
+  home.file = lib.mkIf (berkeleyMonoFontDir != null) {
+    "Library/Fonts/BerkeleyMono-Regular.otf".source =
+      mkSymlink "${berkeleyMonoFontDir}/BerkeleyMono-Regular.otf";
+    "Library/Fonts/BerkeleyMono-Bold.otf".source =
+      mkSymlink "${berkeleyMonoFontDir}/BerkeleyMono-Bold.otf";
+    "Library/Fonts/BerkeleyMono-Oblique.otf".source =
+      mkSymlink "${berkeleyMonoFontDir}/BerkeleyMono-Oblique.otf";
     "Library/Fonts/BerkeleyMono-Bold-Oblique.otf".source =
-      mkSymlink "${fontDir}/BerkeleyMono-Bold-Oblique.otf";
+      mkSymlink "${berkeleyMonoFontDir}/BerkeleyMono-Bold-Oblique.otf";
   };
 
   xdg.configFile = {

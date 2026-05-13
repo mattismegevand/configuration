@@ -20,17 +20,25 @@ alias gl="git log --oneline -20"
 alias cleanup="sudo nix-collect-garbage -d"
 
 rebuild() {
-  cd ~/configuration || return
+  local config_dir="${CONFIGURATION_DIR:-$HOME/configuration}"
+
   if [[ "$(uname)" == "Darwin" ]]; then
-    sudo darwin-rebuild switch --flake .
+    sudo darwin-rebuild switch --flake "$config_dir"
   else
-    sudo nixos-rebuild switch --flake .
+    sudo nixos-rebuild switch --flake "$config_dir"
   fi
 }
 
 update() {
-  cd ~/configuration || return
-  nix flake update && rebuild
+  local config_dir="${CONFIGURATION_DIR:-$HOME/configuration}"
+
+  nix flake update --flake "$config_dir" && rebuild
+}
+
+check-config() {
+  local config_dir="${CONFIGURATION_DIR:-$HOME/configuration}"
+
+  nix fmt "$config_dir" -- --ci && nix flake check "$config_dir"
 }
 
 notes_file() {

@@ -34,24 +34,52 @@
     }:
     let
       username = "mattis";
+      macbookHost = "macbook";
+      vpsHost = "vps";
+      macbookSystem = "aarch64-darwin";
+      vpsSystem = "x86_64-linux";
+      macbookFontDir = "/Users/${username}/Library/Mobile Documents/com~apple~CloudDocs/misc/250223LKQVJ0407L/TX-02-4K4X9N9Y";
 
       # Common nixpkgs configuration for all systems
       nixpkgsConfig = {
         nixpkgs.config.allowUnfree = true;
       };
+
+      formatCheck =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        pkgs.runCommand "format-check"
+          {
+            nativeBuildInputs = [ pkgs.nixfmt-tree ];
+            src = self;
+          }
+          ''
+            mkdir source
+            cp -R "$src/." source/
+            chmod -R u+w source
+            cd source
+            treefmt --ci --tree-root "$PWD" --walk filesystem .
+            touch "$out"
+          '';
     in
     {
       # Formatter for `nix fmt` (directory-aware wrapper avoids nixfmt deprecation warnings)
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      formatter.${macbookSystem} = nixpkgs.legacyPackages.${macbookSystem}.nixfmt-tree;
+      formatter.${vpsSystem} = nixpkgs.legacyPackages.${vpsSystem}.nixfmt-tree;
+
+      checks.${macbookSystem}.format = formatCheck macbookSystem;
+      checks.${vpsSystem}.format = formatCheck vpsSystem;
 
       # macOS configuration
-      darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+      darwinConfigurations.${macbookHost} = nix-darwin.lib.darwinSystem {
+        system = macbookSystem;
         specialArgs = {
           inherit inputs username;
-          hostname = "macbook";
+          hostname = macbookHost;
           configDir = self;
+          berkeleyMonoFontDir = macbookFontDir;
         };
         modules = [
           ./nix/hosts/macbook
@@ -75,8 +103,9 @@
               backupFileExtension = "backup";
               extraSpecialArgs = {
                 inherit inputs username;
-                hostname = "macbook";
+                hostname = macbookHost;
                 configDir = self;
+                berkeleyMonoFontDir = macbookFontDir;
               };
               users.${username} = import ./nix/modules/home/darwin.nix;
             };
@@ -85,8 +114,8 @@
       };
 
       # Hetzner VPS with Tailscale SSH
-      nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      nixosConfigurations.${vpsHost} = nixpkgs.lib.nixosSystem {
+        system = vpsSystem;
         specialArgs = {
           inherit inputs username;
           configDir = self;
