@@ -1,4 +1,4 @@
-{ ... }:
+{ username, ... }:
 
 {
   # macOS system preferences
@@ -75,7 +75,7 @@
     # Screenshot settings
     screencapture = {
       disable-shadow = true;
-      location = "~/Pictures/Screenshots";
+      location = "/Users/${username}/Pictures/Screenshots";
       type = "png";
     };
 
@@ -96,10 +96,13 @@
 
   # Power management - display sleep after 15 minutes
   system.activationScripts.postActivation.text = ''
+    mkdir -p /Users/${username}/Pictures/Screenshots
+    chown ${username}:staff /Users/${username}/Pictures/Screenshots
+
     # Screensaver starts after 5 minutes
-    defaults -currentHost write com.apple.screensaver idleTime -int 300
+    sudo -u ${username} defaults -currentHost write com.apple.screensaver idleTime -int 300
     # Display sleep after 15 minutes (value in minutes)
-    sudo pmset -a displaysleep 15
+    pmset -a displaysleep 15
   '';
 
   # Touch ID for sudo

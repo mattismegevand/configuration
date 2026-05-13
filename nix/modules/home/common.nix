@@ -1,4 +1,9 @@
-{ pkgs, username, configDir, ... }:
+{
+  pkgs,
+  username,
+  configDir,
+  ...
+}:
 
 {
   home = {
@@ -64,7 +69,7 @@
     home-manager.enable = true;
     fzf = {
       enable = true;
-      enableZshIntegration = false;  # Handled in zshrc
+      enableZshIntegration = false; # Handled in zshrc
     };
     direnv = {
       enable = true;

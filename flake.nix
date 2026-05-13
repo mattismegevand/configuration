@@ -23,7 +23,15 @@
 
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, nix-homebrew, disko }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      nix-homebrew,
+      disko,
+    }:
     let
       username = "mattis";
 
@@ -33,14 +41,18 @@
       };
     in
     {
-      # Formatter for `nix fmt`
-      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+      # Formatter for `nix fmt` (directory-aware wrapper avoids nixfmt deprecation warnings)
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
 
       # macOS configuration
       darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = { inherit inputs username; hostname = "macbook"; configDir = self; };
+        specialArgs = {
+          inherit inputs username;
+          hostname = "macbook";
+          configDir = self;
+        };
         modules = [
           ./nix/hosts/macbook
           ./nix/modules/darwin
@@ -61,7 +73,11 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "backup";
-              extraSpecialArgs = { inherit inputs username; hostname = "macbook"; configDir = self; };
+              extraSpecialArgs = {
+                inherit inputs username;
+                hostname = "macbook";
+                configDir = self;
+              };
               users.${username} = import ./nix/modules/home/darwin.nix;
             };
           }
@@ -71,7 +87,10 @@
       # Hetzner VPS with Tailscale SSH
       nixosConfigurations."vps" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs username; configDir = self; };
+        specialArgs = {
+          inherit inputs username;
+          configDir = self;
+        };
         modules = [
           ./nix/hosts/vps
           ./nix/modules/nixos
@@ -83,7 +102,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit inputs username; configDir = self; };
+              extraSpecialArgs = {
+                inherit inputs username;
+                configDir = self;
+              };
               users.${username} = import ./nix/modules/home/linux.nix;
             };
           }

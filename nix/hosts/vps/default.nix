@@ -1,4 +1,8 @@
-{ pkgs, username, inputs, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 
 {
   imports = [ ./disk-config.nix ];
@@ -8,8 +12,18 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
-    kernelModules = [ "kvm-intel" "kvm-amd" ];
+    initrd.availableKernelModules = [
+      "ahci"
+      "xhci_pci"
+      "virtio_pci"
+      "virtio_scsi"
+      "sd_mod"
+      "sr_mod"
+    ];
+    kernelModules = [
+      "kvm-intel"
+      "kvm-amd"
+    ];
   };
 
   networking = {

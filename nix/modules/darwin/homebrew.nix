@@ -30,13 +30,9 @@
       "iina"
       "netnewswire"
       "orbstack"
+      "tailscale-app"
       "transmission"
       "visual-studio-code"
     ];
-
-    # Mac App Store apps (requires mas CLI)
-    masApps = {
-      "Tailscale" = 1475387142;
-    };
   };
 }
