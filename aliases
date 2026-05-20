@@ -18,11 +18,21 @@ alias cleanup="sudo nix-collect-garbage -d"
 
 rebuild() {
   local config_dir="${CONFIGURATION_DIR:-$HOME/configuration}"
+  local action="${1:-switch}"
+
+  if [[ "$action" != "switch" && "$action" != "boot" ]]; then
+    printf 'usage: rebuild [switch|boot]\n' >&2
+    return 2
+  fi
 
   if [[ "$(uname)" == "Darwin" ]]; then
+    if [[ "$action" == "boot" ]]; then
+      printf 'rebuild boot is only supported on NixOS\n' >&2
+      return 2
+    fi
     sudo darwin-rebuild switch --flake "$config_dir"
   else
-    sudo nixos-rebuild switch --flake "$config_dir"
+    sudo nixos-rebuild "$action" --flake "$config_dir"
   fi
 }
 
