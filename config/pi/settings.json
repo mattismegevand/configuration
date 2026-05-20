@@ -1,0 +1,9 @@
+{
+  "enableInstallTelemetry": false,
+  "npmCommand": ["mise", "exec", "node@lts", "--", "npm"],
+  "packages": [
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-todo"
+  ]
+}

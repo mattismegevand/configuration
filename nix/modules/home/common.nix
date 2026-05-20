@@ -43,6 +43,7 @@
       ".zprofile".source = "${configDir}/zprofile";
       ".psqlrc".source = "${configDir}/psqlrc";
       ".pip/pip.conf".source = "${configDir}/pip.conf";
+      ".pi/agent/settings.json".source = "${configDir}/config/pi/settings.json";
       ".hushlogin".text = "";
     };
   };
