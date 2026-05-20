@@ -21,30 +21,16 @@
       wget
 
       # Modern CLI tools
-      bat
-      btop
-      eza
-      fd
       fzf
       jq
       ripgrep
 
       # Development
-      _1password-cli
-      delta
-      gh
-      gnupg
-      hyperfine
       mise
 
       # Shell enhancements
-      atuin
-      lazygit
       tmux
       vim
-      zoxide
-      zsh-autosuggestions
-      zsh-syntax-highlighting
     ];
 
     file = {

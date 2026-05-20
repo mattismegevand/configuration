@@ -18,7 +18,6 @@
 
     # CLI tools from Homebrew (prefer nix packages when available)
     brews = [
-      "mole" # macOS system optimization tool
     ];
 
     # GUI applications

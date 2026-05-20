@@ -4,7 +4,7 @@
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore
-	pager = delta
+	pager = less
 [init]
 	defaultBranch = main
 [filter "lfs"]
@@ -38,9 +38,3 @@
 	prune = true
 [diff]
 	algorithm = histogram
-[interactive]
-	diffFilter = delta --color-only
-[delta]
-	navigate = true
-	line-numbers = true
-	side-by-side = false

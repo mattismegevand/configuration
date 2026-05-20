@@ -8,9 +8,9 @@ export VISUAL='vim'
 export PAGER='less'
 export HOMEBREW_NO_AUTO_UPDATE=1
 export LESS="-R -X -F"
-export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
+export FZF_DEFAULT_COMMAND="find . -path '*/.git' -prune -o -type f -print"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
+export FZF_ALT_C_COMMAND="find . -path '*/.git' -prune -o -type d -print"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 # Some remote hosts lack Ghostty terminfo; keep local capabilities intact and
@@ -62,10 +62,13 @@ if [[ -n ${ZCOMPDUMP}(#qN.mh+24) ]]; then
 else
   compinit -C -d "$ZCOMPDUMP"
 fi
+[[ "$ZCOMPDUMP" -nt "$ZCOMPDUMP.zwc" ]] && zcompile "$ZCOMPDUMP"
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-if command -v fzf &> /dev/null; then
+# fzf's shell integration installs ZLE widgets; skip it for `zsh -ic ...`
+# shells where the line editor is not active.
+if [[ -t 0 && -t 1 ]] && command -v fzf &> /dev/null; then
   source <(fzf --zsh)
 fi
 
@@ -78,23 +81,6 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-# Atuin - better shell history
-if command -v atuin &> /dev/null; then
-  eval "$(atuin init zsh)"
-fi
-
-# Zoxide - smarter cd
-if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
-fi
-
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.aliases_work ]] && source ~/.aliases_work
 
-# Syntax highlighting and autosuggestions (Nix-managed paths)
-for p in /run/current-system/sw/share $HOME/.nix-profile/share /etc/profiles/per-user/$USER/share; do
-  [[ -f "$p/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && { source "$p/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"; break; }
-done
-for p in /run/current-system/sw/share $HOME/.nix-profile/share /etc/profiles/per-user/$USER/share; do
-  [[ -f "$p/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && { source "$p/zsh-autosuggestions/zsh-autosuggestions.zsh"; break; }
-done

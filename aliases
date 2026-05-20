@@ -3,11 +3,8 @@ alias ln="ln -v"
 alias mkdir="mkdir -pv"
 alias mv="mv -iv"
 
-alias ls="eza"
-alias ll="eza -la"
-alias la="eza -a"
-alias lt="eza --tree"
-alias cat="bat --paging=never"
+alias ll="ls -la"
+alias la="ls -a"
 
 alias g="git"
 alias gs="git status"
