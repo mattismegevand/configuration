@@ -8,7 +8,7 @@
     # Uninstall packages not listed here
     onActivation = {
       autoUpdate = true;
-      cleanup = "zap";
+      cleanup = "uninstall";
       upgrade = true;
     };
 

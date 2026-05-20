@@ -35,6 +35,9 @@
 
   services.openssh = {
     enable = true;
+    # Hetzner exposes hosts directly to the internet; keep OpenSSH reachable
+    # through Tailscale/trusted interfaces, but do not open port 22 publicly.
+    openFirewall = false;
     settings = {
       AllowUsers = [ username ];
       KbdInteractiveAuthentication = false;

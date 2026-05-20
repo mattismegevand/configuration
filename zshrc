@@ -13,9 +13,15 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
-if [ "$TERM" = "xterm-ghostty" ]; then
-  export TERM=xterm-256color
-fi
+# Some remote hosts lack Ghostty terminfo; keep local capabilities intact and
+# downgrade TERM only for SSH sessions.
+ssh() {
+  if [[ "$TERM" == "xterm-ghostty" ]]; then
+    TERM=xterm-256color command ssh "$@"
+  else
+    command ssh "$@"
+  fi
+}
 
 # Note: secrets here are exported to all child processes
 if [ -f "$HOME/.env" ]; then
