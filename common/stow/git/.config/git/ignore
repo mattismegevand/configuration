@@ -1,0 +1,12 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+*.swp
+*.swo
+*~

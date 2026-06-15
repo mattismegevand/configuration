@@ -1,0 +1,33 @@
+[init]
+	defaultBranch = main
+[user]
+	name = Mattis Megevand
+	email = megevand.mattis@gmail.com
+[core]
+	editor = vim
+[branch]
+	sort = -committerdate
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	renames = true
+[merge]
+	conflictStyle = zdiff3
+[column]
+	ui = auto
+[fetch]
+	prune = true
+	pruneTags = true
+[pull]
+	ff = only
+[push]
+	autoSetupRemote = true
+[rebase]
+	autoStash = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[help]
+	autocorrect = prompt
+[include]
+	path = ~/.gitconfig.local

@@ -1,0 +1,11 @@
+[settings]
+python.uv_venv_auto = "create|source"
+
+[tools]
+pi = "latest"
+python = "3.14"
+
+[env]
+PI_SKIP_VERSION_CHECK = "1"
+PI_TELEMETRY = "0"
+UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }
