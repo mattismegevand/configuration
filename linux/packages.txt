@@ -1,0 +1,10 @@
+btop
+curl
+fd-find
+fzf
+git
+ripgrep
+stow
+tmux
+vim
+zsh

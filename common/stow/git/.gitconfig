@@ -1,8 +1,5 @@
 [init]
 	defaultBranch = main
-[user]
-	name = Mattis Megevand
-	email = megevand.mattis@gmail.com
 [core]
 	editor = vim
 [branch]

@@ -2,8 +2,10 @@
 python.uv_venv_auto = "create|source"
 
 [tools]
+node = "lts"
 pi = "latest"
 python = "3.14"
+uv = "latest"
 
 [env]
 PI_SKIP_VERSION_CHECK = "1"
