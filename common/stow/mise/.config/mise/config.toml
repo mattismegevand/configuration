@@ -5,8 +5,6 @@ python.uv_venv_auto = "create|source"
 node = "lts"
 pi = "latest"
 python = "3.14"
-rust = "latest"
-sccache = "latest"
 uv = "latest"
 
 [env]

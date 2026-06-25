@@ -5,7 +5,6 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export LESS='-FRX'
-export RUSTC_WRAPPER=sccache
 
 path=("$HOME/.local/bin" $path)
 

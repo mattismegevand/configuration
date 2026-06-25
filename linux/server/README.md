@@ -11,12 +11,13 @@ cd ~/configuration
 ```
 
 The server profile skips desktop snaps, installs headless admin packages, enables
-basic firewall defaults, allows Tailscale traffic, enables fail2ban and
-unattended upgrades, limits journald disk usage, installs Hermes Agent, and
-switches the login shell to zsh.
+basic firewall defaults, allows Tailscale direct connections and tailnet traffic,
+enables fail2ban and unattended upgrades, limits journald disk usage, installs
+Hermes Agent, and switches the login shell to zsh.
 
 Before running it on a public server, make sure SSH key login works. The script
-allows `OpenSSH` in UFW and then enables the firewall.
+allows `OpenSSH`, `41641/udp` for Tailscale, and inbound traffic on
+`tailscale0` in UFW before enabling the firewall.
 
 Hermes Agent is installed non-interactively, so first-run configuration is left
 for an SSH session:
