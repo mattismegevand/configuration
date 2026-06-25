@@ -20,32 +20,48 @@ case "$(uname)" in
   Linux)
     os=linux
     if [ -z "$profile" ]; then
-      printf 'Usage: %s personal|server\n' "$0" >&2
+      printf 'Usage: %s personal|server|server-user\n' "$0" >&2
       exit 1
     fi
     case "$profile" in
-      personal|server) ;;
+      personal|server|server-user) ;;
       *)
         printf 'Unsupported Linux profile: %s\n' "$profile" >&2
         exit 1
         ;;
     esac
     printf 'Installing %s profile on Linux\n' "$profile"
+    if [ "$profile" = "server" ] && [ "$(id -u)" -ne 0 ]; then
+      printf 'The server profile must be run as root; it will configure the mattis user.\n' >&2
+      exit 1
+    fi
+    if [ "$profile" = "server-user" ] && [ "$(id -u)" -eq 0 ]; then
+      printf 'The server-user profile must not be run as root.\n' >&2
+      exit 1
+    fi
+    if [ "$profile" = "server-user" ]; then
+      printf 'Server user setup: user=%s home=%s repo=%s\n' "$(id -un)" "$HOME" "$PWD"
+    fi
     . /etc/os-release
     if [ "${ID:-}" != "ubuntu" ]; then
       printf 'Unsupported Linux distribution: %s\n' "${ID:-unknown}" >&2
       exit 1
     fi
-    sudo apt-get update
-    xargs sudo apt-get install -y <"./linux/packages.txt"
-    if [ "$profile" = "personal" ]; then
-      xargs sudo snap install <"./linux/snaps.txt"
-    elif [ "$profile" = "server" ]; then
-      xargs sudo apt-get install -y <"./linux/server-packages.txt"
+    if [ "$profile" != "server-user" ]; then
+      sudo apt-get update
+      xargs sudo apt-get install -y <"./linux/packages.txt"
+      if [ "$profile" = "personal" ]; then
+        xargs sudo snap install <"./linux/snaps.txt"
+      elif [ "$profile" = "server" ]; then
+        xargs sudo apt-get install -y <"./linux/server-packages.txt"
+      fi
+      ./linux/system-setup.sh
     fi
-    ./linux/setup.sh
-    if [ "$profile" = "server" ]; then
+    if [ "$profile" = "personal" ] || [ "$profile" = "server-user" ]; then
+      ./linux/user-setup.sh
+    elif [ "$profile" = "server" ]; then
       ./linux/server/setup.sh
+      exit 0
     fi
     ;;
   *)

@@ -8,6 +8,14 @@ server_user_shell=/usr/bin/zsh
 server_user_authorized_keys="$PWD/linux/server/users/$server_user/authorized_keys"
 configuration_repo_url=https://github.com/mattismegevand/configuration.git
 
+if [ "$(id -u)" -ne 0 ]; then
+  printf 'linux/server/setup.sh must be run as root.\n' >&2
+  exit 1
+fi
+
+printf 'Server bootstrap: user=%s home=%s repo=%s\n' \
+  "$server_user" "$server_user_home" "$server_user_repo"
+
 if ! getent passwd "$server_user" >/dev/null; then
   sudo useradd -m -s "$server_user_shell" "$server_user"
 fi
@@ -24,13 +32,7 @@ else
   sudo -H -u "$server_user" git -C "$server_user_repo" pull --ff-only
 fi
 
-sudo -H -u "$server_user" stow --no-folding --target="$server_user_home" \
-  --restow --dir="$server_user_repo/common/stow" \
-  ghostty git mise pi shell tmux uv vim
-sudo -H -u "$server_user" stow --no-folding --target="$server_user_home" \
-  --restow --dir="$server_user_repo/linux/stow" \
-  git ssh
-sudo chmod 600 "$server_user_home/.ssh/config"
+sudo -H -u "$server_user" "$server_user_repo/install.sh" server-user
 
 sudo install -d -m 755 /etc/systemd/journald.conf.d
 printf '%s\n' '[Journal]' 'SystemMaxUse=1G' 'RuntimeMaxUse=512M' |
