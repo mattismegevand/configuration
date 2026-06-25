@@ -5,9 +5,10 @@ python.uv_venv_auto = "create|source"
 node = "lts"
 pi = "latest"
 python = "3.14"
+rust = "latest"
+sccache = "latest"
 uv = "latest"
 
 [env]
 PI_SKIP_VERSION_CHECK = "1"
 PI_TELEMETRY = "0"
-UV_PYTHON = { value = "{{ tools.python.path }}", tools = true }

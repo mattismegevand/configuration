@@ -5,6 +5,9 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export LESS='-FRX'
+export RUSTC_WRAPPER=sccache
+
+path=("$HOME/.local/bin" $path)
 
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=50000
@@ -35,7 +38,7 @@ bindkey -e
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
-if (( $+commands[fzf] )); then
+if (( $+commands[fzf] )) && [[ -t 0 ]]; then
   source <(fzf --zsh)
 fi
 

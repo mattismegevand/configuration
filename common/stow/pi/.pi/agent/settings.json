@@ -3,6 +3,7 @@
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "medium",
   "enableInstallTelemetry": false,
-  "theme": "dark",
-  "lastChangelogVersion": "0.79.4"
+  "lastChangelogVersion": "0.79.6",
+  "hideThinkingBlock": true,
+  "theme": "light"
 }

@@ -1,0 +1,13 @@
+ca-certificates
+fail2ban
+gnupg
+jq
+less
+man-db
+ncdu
+ncurses-bin
+rsync
+sudo
+unattended-upgrades
+ufw
+unzip
