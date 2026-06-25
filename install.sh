@@ -3,20 +3,26 @@ set -eu
 
 cd "$(dirname "$0")"
 
-profile="${1:-personal}"
+profile="${1:-}"
 
 case "$(uname)" in
   Darwin)
     os=macos
+    profile="${profile:-personal}"
     if [ "$profile" != "personal" ]; then
       printf 'Unsupported macOS profile: %s\n' "$profile" >&2
       exit 1
     fi
+    printf 'Installing %s profile on macOS\n' "$profile"
     brew bundle --file="./macos/Brewfile"
     ./macos/setup.sh
     ;;
   Linux)
     os=linux
+    if [ -z "$profile" ]; then
+      printf 'Usage: %s personal|server\n' "$0" >&2
+      exit 1
+    fi
     case "$profile" in
       personal|server) ;;
       *)
@@ -24,6 +30,7 @@ case "$(uname)" in
         exit 1
         ;;
     esac
+    printf 'Installing %s profile on Linux\n' "$profile"
     . /etc/os-release
     if [ "${ID:-}" != "ubuntu" ]; then
       printf 'Unsupported Linux distribution: %s\n' "${ID:-unknown}" >&2
