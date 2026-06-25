@@ -3,8 +3,10 @@ set -eu
 
 server_user=mattis
 server_user_home="/home/$server_user"
+server_user_repo="$server_user_home/configuration"
 server_user_shell=/usr/bin/zsh
 server_user_authorized_keys="$PWD/linux/server/users/$server_user/authorized_keys"
+configuration_repo_url=https://github.com/mattismegevand/configuration.git
 
 if ! getent passwd "$server_user" >/dev/null; then
   sudo useradd -m -s "$server_user_shell" "$server_user"
@@ -15,6 +17,20 @@ sudo passwd -l "$server_user" >/dev/null
 sudo install -d -m 700 -o "$server_user" -g "$server_user" "$server_user_home/.ssh"
 sudo install -m 600 -o "$server_user" -g "$server_user" \
   "$server_user_authorized_keys" "$server_user_home/.ssh/authorized_keys"
+
+if [ ! -d "$server_user_repo/.git" ]; then
+  sudo -H -u "$server_user" git clone "$configuration_repo_url" "$server_user_repo"
+else
+  sudo -H -u "$server_user" git -C "$server_user_repo" pull --ff-only
+fi
+
+sudo -H -u "$server_user" stow --no-folding --target="$server_user_home" \
+  --restow --dir="$server_user_repo/common/stow" \
+  ghostty git mise pi shell tmux uv vim
+sudo -H -u "$server_user" stow --no-folding --target="$server_user_home" \
+  --restow --dir="$server_user_repo/linux/stow" \
+  git ssh
+sudo chmod 600 "$server_user_home/.ssh/config"
 
 sudo install -d -m 755 /etc/systemd/journald.conf.d
 printf '%s\n' '[Journal]' 'SystemMaxUse=1G' 'RuntimeMaxUse=512M' |
