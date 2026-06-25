@@ -21,6 +21,11 @@ printf '%s\n' '[Journal]' 'SystemMaxUse=1G' 'RuntimeMaxUse=512M' |
   sudo tee /etc/systemd/journald.conf.d/10-size-limits.conf >/dev/null
 sudo systemctl restart systemd-journald
 
+sudo install -d -m 755 /etc/fail2ban/jail.d
+printf '%s\n' \
+  '[DEFAULT]' \
+  'ignoreip = 127.0.0.1/8 ::1 100.64.0.0/10' |
+  sudo tee /etc/fail2ban/jail.d/10-ignore-tailnet.conf >/dev/null
 sudo systemctl enable --now fail2ban
 sudo dpkg-reconfigure -f noninteractive unattended-upgrades
 
