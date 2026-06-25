@@ -9,4 +9,4 @@ window-save-state = always
 copy-on-select = false
 macos-option-as-alt = left
 shell-integration = zsh
-shell-integration-features = ssh-env,ssh-terminfo
+shell-integration-features = path,ssh-env
