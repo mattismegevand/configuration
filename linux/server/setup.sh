@@ -24,7 +24,7 @@ sudo systemctl restart systemd-journald
 sudo install -d -m 755 /etc/fail2ban/jail.d
 printf '%s\n' \
   '[DEFAULT]' \
-  'ignoreip = 127.0.0.1/8 ::1 100.64.0.0/10' |
+  'ignoreip = 127.0.0.1/8 ::1 100.67.47.63' |
   sudo tee /etc/fail2ban/jail.d/10-ignore-tailnet.conf >/dev/null
 sudo systemctl enable --now fail2ban
 sudo dpkg-reconfigure -f noninteractive unattended-upgrades
