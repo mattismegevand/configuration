@@ -13,9 +13,10 @@ cd ~/configuration
 The server profile skips desktop snaps, installs headless admin packages, enables
 basic firewall defaults, allows Tailscale direct connections and tailnet traffic,
 enables fail2ban and unattended upgrades, limits journald disk usage, installs
-Hermes Agent, creates the `mattis` SSH user with a locked password, syncs this
-configuration repo into `/home/mattis/configuration`, and then runs
-`./install.sh server-user` as `mattis` so user dotfiles never land in `/root`.
+Hermes Agent, creates the `mattis` SSH user with passwordless sudo and a locked
+password, syncs this configuration repo into `/home/mattis/configuration`, and
+then runs `./install.sh server-user` as `mattis` so user dotfiles never land in
+`/root`.
 
 Before running it on a public server, make sure SSH key login works. The script
 allows `OpenSSH`, `41641/udp` for Tailscale, and inbound traffic on
