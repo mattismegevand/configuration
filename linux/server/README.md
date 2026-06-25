@@ -16,6 +16,7 @@ enables fail2ban and unattended upgrades, limits journald disk usage, installs
 Hermes Agent, creates the `mattis` SSH user with sudo group membership, syncs
 this configuration repo into `/home/mattis/configuration`, and then runs
 `./install.sh server-user` as `mattis` so user dotfiles never land in `/root`.
+Set a password for `mattis` after bootstrap if you want password-based sudo.
 
 Before running it on a public server, make sure SSH key login works. The script
 allows `OpenSSH`, `41641/udp` for Tailscale, and inbound traffic on

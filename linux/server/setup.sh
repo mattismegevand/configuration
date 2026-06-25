@@ -22,7 +22,6 @@ fi
 
 sudo usermod -s "$server_user_shell" "$server_user"
 sudo usermod -aG sudo "$server_user"
-sudo passwd -l "$server_user" >/dev/null
 sudo install -d -m 700 -o "$server_user" -g "$server_user" "$server_user_home/.ssh"
 sudo install -m 600 -o "$server_user" -g "$server_user" \
   "$server_user_authorized_keys" "$server_user_home/.ssh/authorized_keys"
