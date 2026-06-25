@@ -36,16 +36,6 @@ after installation:
 sudo tailscale up
 ```
 
-Install Hermes Agent interactively with the official terminal installer, then
-reload the shell and run first-time setup from an SSH session:
-
-```sh
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-source ~/.zshrc
-hermes setup --portal
-hermes gateway setup
-```
-
 Authenticate account-bound tools manually after bootstrap:
 
 ```sh
