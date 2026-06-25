@@ -2,6 +2,7 @@ btop
 curl
 fd-find
 fzf
+gh
 git
 ripgrep
 stow

@@ -19,12 +19,13 @@ Before running it on a public server, make sure SSH key login works. The script
 allows `OpenSSH`, `41641/udp` for Tailscale, and inbound traffic on
 `tailscale0` in UFW before enabling the firewall.
 
-Hermes Agent is installed non-interactively, so first-run configuration is left
-for an SSH session:
+Hermes Agent is installed with the official terminal installer. Reload the shell
+after bootstrap, then run first-time setup from an SSH session:
 
 ```sh
-hermes setup
-hermes gateway
+source ~/.zshrc
+hermes setup --portal
+hermes gateway setup
 ```
 
 Tailscale is installed and `tailscaled` is enabled for all Linux profiles. Log in

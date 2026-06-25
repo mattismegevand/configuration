@@ -11,3 +11,4 @@ sudo
 unattended-upgrades
 ufw
 unzip
+xz-utils
