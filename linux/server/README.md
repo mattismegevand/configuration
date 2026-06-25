@@ -12,28 +12,46 @@ cd ~/configuration
 
 The server profile skips desktop snaps, installs headless admin packages, enables
 basic firewall defaults, allows Tailscale direct connections and tailnet traffic,
-enables fail2ban and unattended upgrades, limits journald disk usage, installs
-Hermes Agent, creates the `mattis` SSH user with sudo group membership, syncs
+enables fail2ban and unattended upgrades, limits journald disk usage, creates
+the `mattis` SSH user with sudo group membership, syncs
 this configuration repo into `/home/mattis/configuration`, and then runs
 `./install.sh server-user` as `mattis` so user dotfiles never land in `/root`.
-Set a password for `mattis` after bootstrap if you want password-based sudo.
 
 Before running it on a public server, make sure SSH key login works. The script
 allows `OpenSSH`, `41641/udp` for Tailscale, and inbound traffic on
 `tailscale0` in UFW before enabling the firewall.
 
-Hermes Agent is installed with the official terminal installer. Reload the shell
-after bootstrap, then run first-time setup from an SSH session:
+## Manual post-bootstrap steps
+
+Set a password for `mattis` if you want password-based sudo:
 
 ```sh
+sudo passwd mattis
+```
+
+Tailscale is installed and `tailscaled` is enabled for all Linux profiles. Log in
+after installation:
+
+```sh
+sudo tailscale up
+```
+
+Install Hermes Agent interactively with the official terminal installer, then
+reload the shell and run first-time setup from an SSH session:
+
+```sh
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 source ~/.zshrc
 hermes setup --portal
 hermes gateway setup
 ```
 
-Tailscale is installed and `tailscaled` is enabled for all Linux profiles. Log in
-after installation with:
+Authenticate account-bound tools manually after bootstrap:
 
 ```sh
-sudo tailscale up
+gh auth login
 ```
+
+Keep these manual too: 1Password sign-in and SSH agent approvals, VS Code
+Settings Sync or account login, browser/app approvals, and any secret-bearing
+dotfiles such as SSH keys, API tokens, or package registry credentials.

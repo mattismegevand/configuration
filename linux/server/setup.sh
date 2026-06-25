@@ -55,8 +55,6 @@ sudo ufw allow 41641/udp comment 'Tailscale direct connections'
 sudo ufw allow in on tailscale0
 sudo ufw --force enable
 
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --skip-setup
-
 if command -v zsh >/dev/null 2>&1 && [ "${SHELL:-}" != "$(command -v zsh)" ]; then
   sudo chsh -s "$(command -v zsh)" "$USER"
 fi
