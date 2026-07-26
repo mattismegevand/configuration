@@ -47,6 +47,7 @@ fi
 PROMPT='%F{cyan}%n%f@%F{blue}%m%f:%F{magenta}%~%f %(?.%F{green}.%F{red})$%f '
 
 alias ll='ls -lah'
+alias codex='codex --yolo'
 
 if [[ -r "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"

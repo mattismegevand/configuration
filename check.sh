@@ -60,7 +60,7 @@ if command -v plutil >/dev/null 2>&1; then
 fi
 
 stow --simulate --no-folding --target="$HOME" --restow \
-  --dir="$PWD/common/stow" ghostty git mise pi shell tmux uv vim
+  --dir="$PWD/common/stow" ghostty git mise nvim pi shell tmux uv vim
 
 case "$(uname)" in
   Darwin)
