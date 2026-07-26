@@ -3,7 +3,36 @@ set -eu
 
 cd "$(dirname "$0")"
 
+if [ "$(id -u)" -eq 0 ]; then
+  printf 'Run this installer as a regular user; it will request sudo when needed.\n' >&2
+  exit 1
+fi
+
 profile="${1:-}"
+
+run_as_root() {
+  if [ "$(id -u)" -eq 0 ]; then
+    "$@"
+  else
+    sudo "$@"
+  fi
+}
+
+install_apt_packages() {
+  if [ "$(id -u)" -eq 0 ]; then
+    xargs apt-get install -y <"$1"
+  else
+    xargs sudo apt-get install -y <"$1"
+  fi
+}
+
+install_snaps() {
+  if [ "$(id -u)" -eq 0 ]; then
+    xargs snap install <"$1"
+  else
+    xargs sudo snap install <"$1"
+  fi
+}
 
 case "$(uname)" in
   Darwin)
@@ -20,49 +49,24 @@ case "$(uname)" in
   Linux)
     os=linux
     if [ -z "$profile" ]; then
-      printf 'Usage: %s personal|server|server-user\n' "$0" >&2
+      printf 'Usage: %s personal\n' "$0" >&2
       exit 1
     fi
-    case "$profile" in
-      personal|server|server-user) ;;
-      *)
-        printf 'Unsupported Linux profile: %s\n' "$profile" >&2
-        exit 1
-        ;;
-    esac
+    if [ "$profile" != "personal" ]; then
+      printf 'Unsupported Linux profile: %s\n' "$profile" >&2
+      exit 1
+    fi
     printf 'Installing %s profile on Linux\n' "$profile"
-    if [ "$profile" = "server" ] && [ "$(id -u)" -ne 0 ]; then
-      printf 'The server profile must be run as root; it will configure the mattis user.\n' >&2
-      exit 1
-    fi
-    if [ "$profile" = "server-user" ] && [ "$(id -u)" -eq 0 ]; then
-      printf 'The server-user profile must not be run as root.\n' >&2
-      exit 1
-    fi
-    if [ "$profile" = "server-user" ]; then
-      printf 'Server user setup: user=%s home=%s repo=%s\n' "$(id -un)" "$HOME" "$PWD"
-    fi
     . /etc/os-release
     if [ "${ID:-}" != "ubuntu" ]; then
       printf 'Unsupported Linux distribution: %s\n' "${ID:-unknown}" >&2
       exit 1
     fi
-    if [ "$profile" != "server-user" ]; then
-      sudo apt-get update
-      xargs sudo apt-get install -y <"./linux/packages.txt"
-      if [ "$profile" = "personal" ]; then
-        xargs sudo snap install <"./linux/snaps.txt"
-      elif [ "$profile" = "server" ]; then
-        xargs sudo apt-get install -y <"./linux/server-packages.txt"
-      fi
-      ./linux/system-setup.sh
-    fi
-    if [ "$profile" = "personal" ] || [ "$profile" = "server-user" ]; then
-      ./linux/user-setup.sh
-    elif [ "$profile" = "server" ]; then
-      ./linux/server/setup.sh
-      exit 0
-    fi
+    run_as_root apt-get update
+    install_apt_packages "./linux/packages.txt"
+    install_snaps "./linux/snaps.txt"
+    ./linux/system-setup.sh
+    ./linux/user-setup.sh
     ;;
   *)
     printf 'Unsupported OS: %s\n' "$(uname)" >&2
@@ -73,7 +77,7 @@ esac
 install -d -m 700 "$HOME/.ssh"
 
 stow --no-folding --target="$HOME" --restow --dir="$PWD/common/stow" \
-  ghostty git mise pi shell tmux uv vim
+  ghostty git mise nvim pi shell tmux uv vim
 
 if [ "$os" = "macos" ]; then
   stow --no-folding --target="$HOME" --restow --dir="$PWD/macos/stow" \
@@ -89,3 +93,12 @@ elif [ "$os" = "linux" ]; then
 fi
 
 chmod 600 "$HOME/.ssh/config"
+
+if command -v mise >/dev/null 2>&1; then
+  mise install
+elif [ -x "$HOME/.local/bin/mise" ]; then
+  "$HOME/.local/bin/mise" install
+else
+  printf 'mise was not found after setup.\n' >&2
+  exit 1
+fi

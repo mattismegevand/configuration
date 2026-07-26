@@ -3,8 +3,10 @@ python.uv_venv_auto = "create|source"
 
 [tools]
 bun = "latest"
+go = "latest"
 node = "lts"
-pi = "latest"
+"npm:@openai/codex" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
 python = "3.14"
 uv = "latest"
 

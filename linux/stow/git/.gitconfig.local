@@ -1,3 +1,11 @@
 [user]
 	name = Mattis Megevand
-	email = mmeg@odoo.com
+	email = megevand.mattis@gmail.com
+[includeIf "hasconfig:remote.*.url:git@github.com:odoo/**"]
+	path = ~/.gitconfig.odoo
+[includeIf "hasconfig:remote.*.url:https://github.com/odoo/**"]
+	path = ~/.gitconfig.odoo
+[includeIf "hasconfig:remote.*.url:ssh://*.odoo.com/**"]
+	path = ~/.gitconfig.odoo
+[includeIf "hasconfig:remote.*.url:https://*.odoo.com/**"]
+	path = ~/.gitconfig.odoo

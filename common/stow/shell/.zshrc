@@ -17,7 +17,6 @@ setopt hist_expire_dups_first
 setopt hist_find_no_dups
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
-setopt inc_append_history
 setopt interactive_comments
 setopt share_history
 

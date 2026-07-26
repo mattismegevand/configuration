@@ -4,8 +4,9 @@ fd-find
 fzf
 gh
 git
+neovim
 ripgrep
+shellcheck
 stow
 tmux
-vim
 zsh

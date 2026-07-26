@@ -1,12 +1,21 @@
-font-family = Menlo
+# Typography
+font-family = Berkeley Mono
 font-size = 13
+minimum-contrast = 1.1
+
+# Appearance
 theme = dark:GitHub Dark Default,light:GitHub Light Default
 
 window-padding-x = 8
 window-padding-y = 8
+window-padding-balance = true
 window-save-state = always
 
+# Interaction
 copy-on-select = false
+mouse-hide-while-typing = true
 macos-option-as-alt = left
-shell-integration = zsh
-shell-integration-features = path,ssh-env
+
+# Shell integration
+shell-integration = detect
+shell-integration-features = cursor,title,path,sudo,ssh-env,ssh-terminfo

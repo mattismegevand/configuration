@@ -1,9 +1,15 @@
 {
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
+  "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "medium",
   "enableInstallTelemetry": false,
-  "lastChangelogVersion": "0.80.2",
-  "hideThinkingBlock": true,
-  "theme": "light"
+  "lastChangelogVersion": "0.81.1",
+  "hideThinkingBlock": false,
+  "theme": "light",
+  "enabledModels": [
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-luna",
+    "deepseek/deepseek-v4-flash",
+    "deepseek/deepseek-v4-pro"
+  ]
 }

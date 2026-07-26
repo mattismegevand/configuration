@@ -132,7 +132,7 @@ export default function (pi: ExtensionAPI) {
 
 	pi.on("agent_settled", async (_event, ctx) => {
 		try {
-			await refresh(ctx, true);
+			await refresh(ctx);
 		} catch {
 			// Keep the last successful value. A refreshed OAuth token may become
 			// available in auth.json after a later request.
