@@ -113,3 +113,66 @@ vim.api.nvim_create_user_command('GitDiff', open_git_diff, {
 vim.keymap.set('n', '<leader>D', '<Cmd>GitDiff<CR>', {
   desc = 'Open working tree diff',
 })
+
+-- Language servers
+vim.lsp.config('gopls', {
+  cmd = { 'gopls' },
+  filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+  root_markers = { 'go.work', 'go.mod', '.git' },
+})
+
+vim.lsp.config('pyright', {
+  cmd = { 'pyright-langserver', '--stdio' },
+  filetypes = { 'python' },
+  root_markers = {
+    { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt' },
+    '.git',
+  },
+})
+
+vim.lsp.config('typescript', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = {
+    'javascript',
+    'javascriptreact',
+    'typescript',
+    'typescriptreact',
+  },
+  root_markers = { { 'package.json', 'tsconfig.json', 'jsconfig.json' }, '.git' },
+})
+
+vim.lsp.config('lua', {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+  settings = {
+    Lua = {
+      diagnostics = { globals = { 'vim' } },
+      telemetry = { enable = false },
+      workspace = { checkThirdParty = false },
+    },
+  },
+})
+
+vim.lsp.enable({ 'gopls', 'pyright', 'typescript', 'lua' })
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-keymaps', { clear = true }),
+  callback = function(event)
+    local map = function(modes, lhs, rhs, description)
+      vim.keymap.set(modes, lhs, rhs, {
+        buffer = event.buf,
+        desc = description,
+      })
+    end
+
+    map('n', 'gd', vim.lsp.buf.definition, 'Go to definition')
+    map('n', 'gD', vim.lsp.buf.declaration, 'Go to declaration')
+    map('n', '<leader>le', vim.diagnostic.open_float, 'Show diagnostic')
+    map('n', '<leader>lr', vim.lsp.buf.rename, 'Rename symbol')
+    map({ 'n', 'x' }, '<leader>la', vim.lsp.buf.code_action, 'Code action')
+    map({ 'n', 'x' }, '<leader>lf', function()
+      vim.lsp.buf.format({ async = true })
+    end, 'Format code')
+  end,
+})
