@@ -57,14 +57,29 @@ case "$(uname)" in
       exit 1
     fi
     printf 'Installing %s profile on Linux\n' "$profile"
+    # shellcheck disable=SC1091
     . /etc/os-release
     if [ "${ID:-}" != "ubuntu" ]; then
       printf 'Unsupported Linux distribution: %s\n' "${ID:-unknown}" >&2
       exit 1
     fi
     run_as_root apt-get update
+    run_as_root apt-get install -y software-properties-common
+    run_as_root add-apt-repository -y ppa:neovim-ppa/unstable
+    run_as_root apt-get update
     install_apt_packages "./linux/packages.txt"
     install_snaps "./linux/snaps.txt"
+
+    nvim_version="$(nvim --version | awk 'NR == 1 {
+      sub(/^NVIM v/, "")
+      print
+    }')"
+    if ! dpkg --compare-versions "$nvim_version" ge 0.12; then
+      printf 'Neovim 0.12+ is required; installed version is %s.\n' \
+        "$nvim_version" >&2
+      exit 1
+    fi
+
     ./linux/system-setup.sh
     ./linux/user-setup.sh
     ;;
