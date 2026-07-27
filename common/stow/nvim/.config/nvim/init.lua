@@ -7,6 +7,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.undofile = true
+vim.opt.autoread = true
 
 -- Searching
 vim.opt.ignorecase = true
@@ -23,8 +24,17 @@ vim.opt.scrolloff = 4
 vim.opt.termguicolors = true
 vim.opt.colorcolumn = '80'
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.completeopt = { 'menuone', 'noselect', 'popup' }
 
 vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
+vim.keymap.set({ 'n', 'x' }, '<leader>y', '"+y', {
+  desc = 'Copy to system clipboard',
+})
+
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'TermLeave' }, {
+  group = vim.api.nvim_create_augroup('external-file-changes', { clear = true }),
+  command = 'checktime',
+})
 
 -- Neovim 0.12's built-in package manager keeps this config dependency-light.
 vim.pack.add({
@@ -63,13 +73,14 @@ local function open_files()
   require('mini.files').open(path ~= '' and path or vim.uv.cwd(), false)
 end
 
-local function pick_files()
-  local options = vim.fs.root(vim.uv.cwd(), '.git') and { tool = 'git' } or nil
-  pick.builtin.files(options)
-end
-
 vim.keymap.set('n', '<leader>e', open_files, { desc = 'Browse files' })
-vim.keymap.set('n', '<leader>f', pick_files, { desc = 'Find files' })
+vim.keymap.set('n', '<leader>ff', pick.builtin.files, { desc = 'Find all files' })
+vim.keymap.set(
+  'n',
+  '<leader>fg',
+  require('mini.extra').pickers.git_files,
+  { desc = 'Find Git files' }
+)
 vim.keymap.set('n', '<leader>g', pick.builtin.grep_live, { desc = 'Search text' })
 vim.keymap.set('n', '<leader>b', pick.builtin.buffers, { desc = 'Find buffers' })
 vim.keymap.set('n', '<leader>h', pick.builtin.help, { desc = 'Find help' })
@@ -159,6 +170,13 @@ vim.lsp.enable({ 'gopls', 'pyright', 'typescript', 'lua' })
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-keymaps', { clear = true }),
   callback = function(event)
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if client and client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, event.buf, {
+        autotrigger = true,
+      })
+    end
+
     local map = function(modes, lhs, rhs, description)
       vim.keymap.set(modes, lhs, rhs, {
         buffer = event.buf,

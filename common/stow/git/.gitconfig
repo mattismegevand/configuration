@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [core]
-	editor = vim
+	editor = nvim
 [branch]
 	sort = -committerdate
 [diff]

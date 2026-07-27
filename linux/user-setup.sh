@@ -11,3 +11,9 @@ fi
 if ! command -v mise >/dev/null 2>&1; then
   curl -fsSL https://mise.run | sh
 fi
+
+# Match the macOS keyboard settings: 225 ms before repeating, then every 30 ms.
+if command -v gsettings >/dev/null 2>&1; then
+  gsettings set org.gnome.desktop.peripherals.keyboard delay 225
+  gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 30
+fi

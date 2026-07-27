@@ -4,9 +4,12 @@ fd-find
 fzf
 gh
 git
+jq
 neovim
 ripgrep
 shellcheck
 stow
 tmux
+wl-clipboard
+xclip
 zsh
