@@ -50,6 +50,7 @@ git config -f macos/stow/git/.gitconfig.local --list >/dev/null
 git config -f linux/stow/git/.gitconfig.local --list >/dev/null
 git config -f linux/stow/git/.gitconfig.odoo --list >/dev/null
 
+ssh -G -F common/stow/ssh/.ssh/config.common example.com >/dev/null 2>&1
 ssh -G -F macos/stow/ssh/.ssh/config example.com >/dev/null 2>&1
 ssh -G -F linux/stow/ssh/.ssh/config example.odoo.com >/dev/null 2>&1
 
@@ -60,7 +61,7 @@ if command -v plutil >/dev/null 2>&1; then
 fi
 
 stow --simulate --no-folding --target="$HOME" --restow \
-  --dir="$PWD/common/stow" ghostty git mise nvim pi shell tmux uv vim
+  --dir="$PWD/common/stow" ghostty git mise nvim pi shell ssh tmux uv vim
 
 case "$(uname)" in
   Darwin)

@@ -4,6 +4,7 @@ fd-find
 fzf
 gh
 git
+gnupg
 jq
 neovim
 ripgrep

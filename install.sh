@@ -26,14 +26,6 @@ install_apt_packages() {
   fi
 }
 
-install_snaps() {
-  if [ "$(id -u)" -eq 0 ]; then
-    xargs snap install <"$1"
-  else
-    xargs sudo snap install <"$1"
-  fi
-}
-
 case "$(uname)" in
   Darwin)
     os=macos
@@ -68,7 +60,6 @@ case "$(uname)" in
     run_as_root add-apt-repository -y ppa:neovim-ppa/unstable
     run_as_root apt-get update
     install_apt_packages "./linux/packages.txt"
-    install_snaps "./linux/snaps.txt"
 
     nvim_version="$(nvim --version | awk 'NR == 1 {
       sub(/^NVIM v/, "")
@@ -92,7 +83,7 @@ esac
 install -d -m 700 "$HOME/.ssh"
 
 stow --no-folding --target="$HOME" --restow --dir="$PWD/common/stow" \
-  ghostty git mise nvim pi shell tmux uv vim
+  ghostty git mise nvim pi shell ssh tmux uv vim
 
 if [ "$os" = "macos" ]; then
   stow --no-folding --target="$HOME" --restow --dir="$PWD/macos/stow" \
