@@ -19,7 +19,6 @@ set hlsearch
 set splitbelow
 set splitright
 set scrolloff=4
-set clipboard=unnamedplus
 
 if has('termguicolors')
   set termguicolors

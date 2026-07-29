@@ -1,12 +1,9 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
-  "defaultThinkingLevel": "medium",
   "enableInstallTelemetry": false,
   "lastChangelogVersion": "0.81.1",
-  "hideThinkingBlock": false,
   "theme": "light",
-  "packages": [],
   "enabledModels": [
     "openai-codex/gpt-5.6-sol",
     "openai-codex/gpt-5.6-luna",

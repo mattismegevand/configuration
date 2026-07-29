@@ -7,12 +7,10 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.smartindent = true
 vim.opt.undofile = true
-vim.opt.autoread = true
 
 -- Searching
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = true
 
 -- Interface
 vim.opt.number = true
@@ -23,7 +21,6 @@ vim.opt.splitright = true
 vim.opt.scrolloff = 4
 vim.opt.termguicolors = true
 vim.opt.colorcolumn = '80'
-vim.opt.clipboard = 'unnamedplus'
 vim.opt.completeopt = { 'menuone', 'noselect', 'popup' }
 
 vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
@@ -57,7 +54,6 @@ require('mini.files').setup({
   options = {
     -- File removals go to MiniFiles' trash directory instead of being permanent.
     permanent_delete = false,
-    use_as_default_explorer = true,
   },
 })
 
