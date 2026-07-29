@@ -1,0 +1,27 @@
+host: "127.0.0.1"
+port: 8317
+
+tls:
+  enable: false
+  cert: ""
+  key: ""
+
+remote-management:
+  allow-remote: false
+  secret-key: ""
+  disable-control-panel: true
+
+auth-dir: "~/.cli-proxy-api"
+
+api-keys:
+  - "__CLIPROXY_API_KEY__"
+
+debug: false
+request-log: false
+usage-statistics-enabled: false
+logging-to-file: false
+
+routing:
+  strategy: "round-robin"
+  session-affinity: true
+  session-affinity-ttl: "1h"

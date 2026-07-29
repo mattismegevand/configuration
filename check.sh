@@ -8,6 +8,7 @@ check.sh
 install.sh
 linux/system-setup.sh
 linux/user-setup.sh
+macos/setup-cliproxyapi.sh
 "
 
 for script in $shell_scripts; do
@@ -41,9 +42,13 @@ import pathlib
 import tomllib
 
 json.loads(pathlib.Path("common/stow/pi/.pi/agent/settings.json").read_text())
+json.loads(pathlib.Path("macos/claude-settings.json.template").read_text())
 tomllib.loads(pathlib.Path("common/stow/mise/.config/mise/config.toml").read_text())
 tomllib.loads(pathlib.Path("common/stow/uv/.config/uv/uv.toml").read_text())
 '
+
+test "$(grep -c '__CLIPROXY_API_KEY__' macos/cliproxyapi.conf.template)" -eq 1
+test "$(grep -c '__CLIPROXY_API_KEY__' macos/claude-settings.json.template)" -eq 1
 
 git config -f common/stow/git/.gitconfig --list >/dev/null
 git config -f macos/stow/git/.gitconfig.local --list >/dev/null

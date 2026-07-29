@@ -37,6 +37,7 @@ case "$(uname)" in
     printf 'Installing %s profile on macOS\n' "$profile"
     brew bundle --file="./macos/Brewfile"
     ./macos/setup.sh
+    ./macos/setup-cliproxyapi.sh
     ;;
   Linux)
     os=linux
